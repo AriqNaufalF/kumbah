@@ -1,6 +1,6 @@
 # Kumbah
 
-![Kumbah banner](/public/image/Kumbah%20Header.png)
+![Kumbah banner](/public/image/Kumbah%20Header.webp)
 
 Welcome to Kumbah repository, this application is about online laundry services. Where customers who need laundry services can order from this App via our website.
 
