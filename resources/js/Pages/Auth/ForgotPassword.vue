@@ -21,7 +21,9 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout class="items-center text-primary-500">
+    <GuestLayout
+        class="items-center text-primary-500 bg-[url('/svg/wave_1.svg')] bg-no-repeat bg-bottom"
+    >
         <Head title="Forgot Password" />
 
         <div class="mb-4 text-sm text-gray-600">
@@ -59,8 +61,5 @@ const submit = () => {
                 </PrimaryButton>
             </div>
         </form>
-        <template #footer>
-            <BottomWave fill="#6762D3" />
-        </template>
     </GuestLayout>
 </template>

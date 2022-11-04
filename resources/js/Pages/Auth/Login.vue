@@ -27,7 +27,9 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout class="items-center text-primary-500">
+    <GuestLayout
+        class="items-center text-primary-500 bg-[url('/svg/wave_1.svg')] bg-no-repeat bg-bottom"
+    >
         <Head title="Log in" />
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -73,14 +75,9 @@ const submit = () => {
                 </label>
             </div>
 
-            <div class="text-center mt-4">
-                <PrimaryButton
-                    class="mb-4 px-3 w-full"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Log in
-                </PrimaryButton>
+            <div
+                class="flex flex-col-reverse text-center mt-4 lg:flex-row lg:text-start lg:justify-between lg:items-center"
+            >
                 <Link
                     v-if="canResetPassword"
                     :href="route('password.request')"
@@ -88,10 +85,14 @@ const submit = () => {
                 >
                     Forgot your password?
                 </Link>
+                <PrimaryButton
+                    class="mb-4 px-3 w-full lg:w-max lg:px-6 lg:mb-0"
+                    :class="{ 'opacity-25': form.processing }"
+                    :disabled="form.processing"
+                >
+                    Log in
+                </PrimaryButton>
             </div>
         </form>
-        <template #footer>
-            <BottomWave fill="#6762D3" />
-        </template>
     </GuestLayout>
 </template>

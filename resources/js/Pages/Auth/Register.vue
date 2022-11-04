@@ -24,7 +24,9 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout class="items-center text-white bg-primary-700">
+    <GuestLayout
+        class="text-white bg-primary-700 bg-[url('/svg/wave_2.svg')] bg-no-repeat bg-bottom"
+    >
         <Head title="Register" />
 
         <form @submit.prevent="submit">
@@ -102,17 +104,7 @@ const submit = () => {
                 >
                     Register
                 </SecondaryButton>
-                <Link
-                    :href="route('login')"
-                    class="underline text-sm hover:text-secondary-400"
-                >
-                    Already registered?
-                </Link>
             </div>
         </form>
-
-        <template #footer>
-            <BottomWave fill="#fff" />
-        </template>
     </GuestLayout>
 </template>
