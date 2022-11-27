@@ -17,7 +17,7 @@ defineProps({
 
 <template>
     <Link :href="href"
-        :class="custom ? '' : 'px-3 py-1.5 bg-primary-600 font-medium text-sm text-white rounded-md hover:bg-primary-800 2xl:text-base'">
+        :class="custom ? '' : 'px-3 py-1.5 bg-primary-600 font-medium text-sm text-white rounded-md shadow-md transition-all hover:scale-105 hover:bg-primary-800 2xl:text-base'">
     {{ text }}
     </Link>
 </template>
