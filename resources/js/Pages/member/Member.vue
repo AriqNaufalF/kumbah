@@ -30,8 +30,7 @@ function editType(item) {
 function saveFormType() {
     form.post(route('test'), {
         onSuccess() {
-            form.reset();
-            showModal.value = false;
+            closeForm();
         }
     })
 }
