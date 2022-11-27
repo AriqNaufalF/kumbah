@@ -3,7 +3,11 @@ import PrimaryButton from './PrimaryButton.vue';
 import SecondaryButton from './SecondaryButton.vue';
 
 defineProps({
-    show: Boolean
+    show: Boolean,
+    form: {
+        type: Boolean,
+        default: false,
+    }
 });
 </script>
 
@@ -22,7 +26,20 @@ defineProps({
                             </svg>
                             <span class="sr-only">close</span>
                         </button>
-                        <div class="text-center">
+                        <div v-if="form">
+                            <form @submit.prevent="$emit('postForm')">
+                                <slot />
+                                <div class="flex mt-6 justify-end">
+                                    <SecondaryButton type="button" class="px-6 py-1.5" @click="$emit('close')">
+                                        <slot name="noButton">No, cancel</slot>
+                                    </SecondaryButton>
+                                    <PrimaryButton class="px-6 py-1.5 ml-4">
+                                        <slot name="yesButton">Yes, I'm sure</slot>
+                                    </PrimaryButton>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="text-center" v-else>
                             <slot />
                             <PrimaryButton class="px-6 py-1.5 mr-4" @click="$emit('ok')">
                                 <slot name="yesButton">Yes, I'm sure</slot>

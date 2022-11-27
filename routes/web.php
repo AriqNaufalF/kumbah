@@ -46,6 +46,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('member/Member');
     })->name('member');
 
+
+    Route::get('/member/add', function () {
+        return Inertia::render('member/AddMember');
+    })->name('member.add');
+
+    Route::get('/member/edit', function () {
+        return Inertia::render('member/EditMember', ['name' => 'Daisuke']);
+    })->name('member.edit');
+
     Route::get('/service', function () {
         return Inertia::render('service/Service');
     })->name('service');
@@ -55,6 +64,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('history');
 
     Route::post('/test', function (Request $request) {
+        // dd($request);
+        // $request->validate([
+        //     'name' => 'string|max:5'
+        // ]);
         return back();
     })->name('test');
 

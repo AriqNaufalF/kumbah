@@ -5,17 +5,17 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 <template>
     <div class="min-h-screen bg-[#f9f9f9]">
-        <nav class="fixed top-0 bottom-0 w-56 bg-primary-800 shadow-[0_4px_12px_-3px_rgba(0,0,0,0.3)]">
-            <div class="grid grid-cols-1 justify-between min-h-screen p-4">
+        <nav class="fixed top-0 bottom-0 w-56 bg-primary-800 shadow-[0_4px_12px_-3px_rgba(0,0,0,0.3)] overflow-y-auto">
+            <div class="flex flex-col min-h-screen p-4">
                 <!-- Header -->
-                <div class="mt-2.5 max-h-min text-white text-center">
+                <div class="mt-2.5 mb-6 max-h-min text-white text-center">
                     <h1
                         class="relative font-bold text-3xl xl:text-4xl after:content-[''] after:absolute after:-bottom-4 after:left-0 after:right-0 after:border-b-4 after:border-white">
                         Kumbah
                     </h1>
                 </div>
                 <!-- Menu -->
-                <div class="mb-auto text-white text-center">
+                <div class="mb-6 text-white text-center">
                     <ul class="space-y-1.5">
                         <li>
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
@@ -40,7 +40,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink :href="route('member')" :active="route().current('member')">
+                            <NavLink :href="route('member')" :active="route().current('member*')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height="25" width="25"
                                     class="fill-current">
                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
