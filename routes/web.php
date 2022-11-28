@@ -30,6 +30,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    Route::get('/add-order', function () {
+        return Inertia::render('AddOrder');
+    })->name('addOrder');
+
     Route::get('/employee', function () {
         return Inertia::render('employee/Employee');
     })->name('employee');
@@ -64,7 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('history');
 
     Route::post('/test', function (Request $request) {
-        // dd($request);
+        dd($request);
         // $request->validate([
         //     'name' => 'string|max:5'
         // ]);
