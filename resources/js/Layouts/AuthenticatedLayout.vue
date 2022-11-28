@@ -10,7 +10,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                 <!-- Header -->
                 <div class="mt-2.5 mb-6 max-h-min text-white text-center">
                     <h1
-                        class="relative font-bold text-3xl xl:text-4xl after:content-[''] after:absolute after:-bottom-4 after:left-0 after:right-0 after:border-b-4 after:border-white">
+                        class="relative font-bold tracking-wider text-2xl xl:text-3xl after:content-[''] after:absolute after:-bottom-2.5 after:left-0 after:right-0 after:border-b-2 after:border-white">
                         Kumbah
                     </h1>
                 </div>
@@ -18,7 +18,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                 <div class="mb-6 text-white text-center">
                     <ul class="space-y-1.5">
                         <li>
-                            <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            <NavLink :href="route('dashboard')" :active="route().current('dashboard*')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="25" width="25"
                                     class="fill-current">
                                     <path

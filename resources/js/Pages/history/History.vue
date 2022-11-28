@@ -13,7 +13,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">History</h2>
             </div>
-            <div class="mt-20">
+            <div class="mt-20 mx-auto max-w-7xl">
                 <TableList>
                     <template #thead>
                         <th class="py-3 px-3.5">ID</th>

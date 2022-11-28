@@ -75,7 +75,7 @@ function closeModal() {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Service</h2>
             </div>
-            <div class="mt-20">
+            <div class="mt-20 mx-auto max-w-7xl">
                 <TableList>
                     <div class="flex justify-end mb-5">
                         <PrimaryButton class="px-3 2xl:text-base" @click="showModal('add')">

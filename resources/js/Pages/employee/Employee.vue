@@ -14,7 +14,7 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Employee List</h2>
             </div>
-            <div class="mt-20">
+            <div class="mt-20 mx-auto max-w-7xl">
                 <TableList>
                     <div class="flex justify-end mb-5">
                         <ButtonLink :href="route('employee.add')" text="Add Employee" />

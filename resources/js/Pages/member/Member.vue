@@ -51,7 +51,7 @@ function closeForm() {
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Member List</h2>
             </div>
             <!-- Member type -->
-            <div class="mt-10">
+            <div class="mt-10 mx-auto max-w-7xl">
                 <div class="p-6 bg-white shadow-lg rounded-lg">
                     <div class="grid grid-flow-col gap-4 xl:grid-cols-3 2xl:justify-items-center 2xl:gap-0">
                         <!-- Card -->
@@ -72,7 +72,7 @@ function closeForm() {
                 </div>
             </div>
             <!-- Member list -->
-            <div class="mt-10">
+            <div class="mt-10 mx-auto max-w-7xl">
                 <TableList>
                     <div class="flex justify-end mb-5">
                         <ButtonLink :href="route('member.add')" text="Add Member" />

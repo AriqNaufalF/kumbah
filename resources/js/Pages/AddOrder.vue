@@ -48,11 +48,11 @@ function submit() {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Add Employee</h2>
             </div>
-            <div class="mt-20">
+            <div class="mt-20 mx-auto max-w-7xl">
                 <div class="p-6 bg-white shadow-lg rounded-lg">
                     <form @submit.prevent="submit">
                         <h3 class="font-semibold text-lg">Customer Info</h3>
-                        <div class="grid grid-cols-2 gap-6 mx-auto max-w-7xl">
+                        <div class="grid grid-cols-2 gap-6">
                             <div>
                                 <!-- Input member id -->
                                 <div>
@@ -101,7 +101,7 @@ function submit() {
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col mt-3 max-w-7xl">
+                        <div class="flex flex-col mt-3">
                             <h3 class="font-semibold text-lg">Order Detail</h3>
                             <SecondaryButton type="button" class="px-3 ml-auto" @click="addCloth">Add Cloth
                             </SecondaryButton>
@@ -115,7 +115,8 @@ function submit() {
                                 <div class="flex items-end">
                                     <div>
                                         <InputLabel :for="`quantity[${index}]`" value="Quantity" class="mb-2" />
-                                        <TextInput v-model="item.quantity" :id="`quantity[${index}]`" type="number" />
+                                        <TextInput v-model="item.quantity" :id="`quantity[${index}]`" type="number"
+                                            class="max-w-[120px]" />
                                         <InputError :message="form.errors[`clotes.${index}.quantity`]" class="mt-1.5" />
                                     </div>
                                     <button type="button" class="mb-2.5 px-3 hover:scale-105"
