@@ -9,48 +9,60 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
 
-const showAddModal = ref(false);
-const showEditModal = ref(false);
+const modal = {
+    show: ref(false),
+    title: ref('Add'),
+    btnText: ref('Add'),
+};
+
 const data = [
     { id: 1, name: 'Cuci cepat', price: '8.000', unit: 'Kg' },
     { id: 2, name: 'Cuci normal', price: '5.000', unit: 'Kg' },
     { id: 3, name: 'Cuci seprai', price: '10.000', unit: 'Pcs' },
 ];
+
 const form = useForm({
     name: '',
     price: '',
     unit: '',
 });
 
-function showEdit(item) {
-    form.name = item.name;
-    form.price = item.price;
-    form.unit = item.unit;
+function showModal(type, item) {
+    const { show, title, btnText } = modal;
 
-    showEditModal.value = true;
+    if (type === 'edit') {
+        form.name = item.name;
+        form.price = item.price;
+        form.unit = item.unit;
+
+        title.value = 'Edit';
+        btnText.value = 'Save';
+    } else {
+        title.value = 'Add';
+        btnText.value = 'Add';
+    }
+    show.value = true;
 }
 
-function submit(modal) {
-    if (modal === 'add') {
+function submit(type) {
+    if (type === 'add') {
         form.post(route('test'), {
             onSuccess() {
-                closeModal(modal);
+                closeModal();
             }
         });
     } else {
         form.post(route('test'), {
             onSuccess() {
-                closeModal(modal);
+                closeModal();
             }
         });
     }
 }
 
-function closeModal(modal) {
+function closeModal() {
     form.reset();
-    modal === 'add' ?
-        showAddModal.value = false :
-        showEditModal.value = false;
+    modal.show.value = false;
 }
 </script>
 
@@ -66,7 +78,7 @@ function closeModal(modal) {
             <div class="mt-20">
                 <TableList>
                     <div class="flex justify-end mb-5">
-                        <PrimaryButton class="px-3 2xl:text-base" @click="showAddModal = true">
+                        <PrimaryButton class="px-3 2xl:text-base" @click="showModal('add')">
                             Add Service
                         </PrimaryButton>
                     </div>
@@ -84,7 +96,7 @@ function closeModal(modal) {
                             <td class="py-3 px-3.5">{{ item.price }}</td>
                             <td class="py-3 px-3.5">{{ item.unit }}</td>
                             <td class="py-3 px-3.5">
-                                <button type="button" @click="showEdit(item)">
+                                <button type="button" @click="showModal('edit', item)">
                                     <span class="sr-only">Edit</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
                                         class="inline hover:scale-x-110">
@@ -100,9 +112,9 @@ function closeModal(modal) {
         </div>
         <Teleport to="body">
             <!-- Add modal -->
-            <Modal :show="showAddModal" :form="true" @close="closeModal('add')" @ok="submit('add')">
+            <Modal :show="modal.show.value" :form="true" @close="closeModal()" @ok="submit('add')">
                 <!-- Input name -->
-                <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">Add Service</h3>
+                <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">{{ modal.title.value }} Service</h3>
                 <div>
                     <InputLabel for="name" value="Name" class="mb-2" />
                     <TextInput v-model="form.name" id="name" type="text" class="w-full" required />
@@ -120,32 +132,7 @@ function closeModal(modal) {
                     <TextInput v-model="form.unit" id="unit" type="text" class="w-full" required />
                     <InputError :message="form.errors.unit" class="mt-1.5" />
                 </div>
-                <template #yesButton>Add</template>
-                <template #noButton>Cancel</template>
-            </Modal>
-
-            <!-- Edit modal -->
-            <Modal :show="showEditModal" :form="true" @close="closeModal('edit')" @ok="submit('edit')">
-                <!-- Input name -->
-                <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">Add Service</h3>
-                <div>
-                    <InputLabel for="name" value="Name" class="mb-2" />
-                    <TextInput v-model="form.name" id="name" type="text" class="w-full" required />
-                    <InputError :message="form.errors.name" class="mt-1.5" />
-                </div>
-                <!-- Input price -->
-                <div class="mt-3">
-                    <InputLabel for="price" value="Price" class="mb-2" />
-                    <TextInput v-model="form.price" id="price" type="number" class="w-full" required />
-                    <InputError :message="form.errors.price" class="mt-1.5" />
-                </div>
-                <!-- Input unit -->
-                <div class="mt-3">
-                    <InputLabel for="unit" value="Unit" class="mb-2" />
-                    <TextInput v-model="form.unit" id="unit" type="text" class="w-full" required />
-                    <InputError :message="form.errors.unit" class="mt-1.5" />
-                </div>
-                <template #yesButton>Add</template>
+                <template #yesButton>{{ modal.btnText.value }}</template>
                 <template #noButton>Cancel</template>
             </Modal>
         </Teleport>
