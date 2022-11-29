@@ -2,7 +2,23 @@
 import ButtonLink from '@/Components/ButtonLink.vue';
 import TableList from '@/Components/TableList.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/inertia-vue3';
+
+const head = [
+    { key: 'id', label: 'ID', sortable: true },
+    { key: 'name', label: 'Name', sortable: true },
+    { key: 'gender', label: 'Gender', sortable: true },
+    { key: 'address', label: 'Address', sortable: false },
+    { key: 'phone', label: 'Phone Number', sortable: false },
+    { key: 'email', label: 'Email', sortable: false },
+    { key: 'job', label: 'Job', sortable: true },
+];
+
+const employeeData = [
+    { id: 1, name: 'Ariq Naufal', gender: 'Male', address: 'Bandung', phone: '082246791678', email: 'ariqn55@gmail.com', job: 'admin' },
+    { id: 2, name: 'Wira ara-ara', gender: 'Male', address: 'Wonosobo', phone: '082224179207', email: 'wirachan@gmail.com', job: 'employee' },
+    { id: 3, name: 'Agung isra', gender: 'Male', address: 'Sumatera', phone: '081277116006', email: 'agungisra@gmail.com', job: 'yutuber' },
+]
 </script>
 
 <template>
@@ -15,50 +31,10 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Employee List</h2>
             </div>
             <div class="mt-20 mx-auto max-w-7xl">
-                <TableList>
+                <TableList :head="head" :data="employeeData" url="employee.edit">
                     <div class="flex justify-end mb-5">
                         <ButtonLink :href="route('employee.add')" text="Add Employee" />
                     </div>
-                    <template #thead>
-                        <th class="py-3 px-3.5">ID</th>
-                        <th class="py-3 px-3.5">Name</th>
-                        <th class="py-3 px-3 5">Gender</th>
-                        <th class="py-3 px-3.5">Address</th>
-                        <th class="py-3 px-3.5">Phone Number</th>
-                        <th class="py-3 px-3.5">Email</th>
-                        <th class="py-3 px-3.5">Job</th>
-                        <th class="py-3 px-3.5">Action</th>
-                    </template>
-                    <template #tbody>
-                        <tr class="group hover:bg-slate-50">
-                            <td class="py-3 px-3.5">1</td>
-                            <td class="py-3 px-3.5">Ariq Naufal</td>
-                            <td class="py-3 px-3.5">Male</td>
-                            <td class="py-3 px-3.5">Bandung</td>
-                            <td class="py-3 px-3.5">082246791678</td>
-                            <td class="py-3 px-3.5">ariqn55@gmail.com</td>
-                            <td class="py-3 px-3.5">Admin</td>
-                            <td class="py-3 px-3.5">
-                                <Link :href="route('employee.edit')">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
-                                    class="inline hover:scale-x-110">
-                                    <path
-                                        d="M9 47.4q-1.2 0-2.1-.9-.9-.9-.9-2.1v-30q0-1.2.9-2.1.9-.9 2.1-.9h20.25L15 25.7v12.7h12.7L42 24v20.4q0 1.2-.9 2.1-.9.9-2.1.9Zm9-12v-8.5l15.1-15.1 8.55 8.4L26.5 35.4Zm25.8-17.35-8.55-8.4L38.1 6.8q.85-.85 2.125-.85t2.125.9l4.2 4.25q.85.9.85 2.125t-.9 2.075Z" />
-                                </svg>
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="py-3 px-3.5">2</td>
-                            <td class="py-3 px-3.5">Wira Mengatara</td>
-                            <td class="py-3 px-3.5">Male</td>
-                            <td class="py-3 px-3.5">Jawa tengah</td>
-                            <td class="py-3 px-3.5">082246783549</td>
-                            <td class="py-3 px-3.5">wirakun@gmail.com</td>
-                            <td class="py-3 px-3.5">Karyawan</td>
-                            <td class="py-3 px-3.5"></td>
-                        </tr>
-                    </template>
                 </TableList>
             </div>
         </div>

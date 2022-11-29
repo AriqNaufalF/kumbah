@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref } from 'vue';
-import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/inertia-vue3';
 
 const showModal = ref(false);
 const form = useForm({
@@ -15,6 +15,19 @@ const form = useForm({
     discount: ''
 });
 
+const head = [
+    { key: 'id', label: 'ID', sortable: true },
+    { key: 'name', label: 'Name', sortable: true },
+    { key: 'type', label: 'Member Type', sortable: true },
+    { key: 'phone', label: 'Phone Number', sortable: false },
+    { key: 'email', label: 'Email', sortable: false },
+    { key: 'start', label: 'Join Date', sortable: true },
+    { key: 'end', label: 'Expire Date', sortable: true },
+];
+const memberData = [
+    { id: 1, name: 'Daisuke', type: 'Gold', phone: '+62812123654782', email: 'daisuke@gmail.com', start: '11-11-22', end: '12-12-22' },
+    { id: 2, name: 'Sakura bebans', type: 'Silver', phone: '+62812123654782', email: 'sakura@gmail.com', start: '25-11-22', end: '12-12-22' },
+]
 const memberType = [
     { name: 'Silver', discount: 5 },
     { name: 'Gold', discount: 10 },
@@ -73,50 +86,10 @@ function closeForm() {
             </div>
             <!-- Member list -->
             <div class="mt-10 mx-auto max-w-7xl">
-                <TableList>
+                <TableList :head="head" :data="memberData" url="member.edit">
                     <div class="flex justify-end mb-5">
                         <ButtonLink :href="route('member.add')" text="Add Member" />
                     </div>
-                    <template #thead>
-                        <th class="py-3 px-3.5">ID</th>
-                        <th class="py-3 px-3.5">Name</th>
-                        <th class="py-3 px-3 5">Type</th>
-                        <th class="py-3 px-3.5">Phone Number</th>
-                        <th class="py-3 px-3.5">Email</th>
-                        <th class="py-3 px-3.5">Join Date</th>
-                        <th class="py-3 px-3.5">Expire Date</th>
-                        <th class="py-3 px-3.5">Action</th>
-                    </template>
-                    <template #tbody>
-                        <tr class="group hover:bg-slate-50">
-                            <td class="py-3 px-3.5">1</td>
-                            <td class="py-3 px-3.5">Daisuke Mura</td>
-                            <td class="py-3 px-3.5">Gold</td>
-                            <td class="py-3 px-3.5">+62812123654782</td>
-                            <td class="py-3 px-3.5">daisuke@gmail.com</td>
-                            <td class="py-3 px-3.5">11-11-22</td>
-                            <td class="py-3 px-3.5">12-12-22</td>
-                            <td class="py-3 px-3.5">
-                                <Link :href="route('member.edit')">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
-                                    class="inline hover:scale-x-110">
-                                    <path
-                                        d="M9 47.4q-1.2 0-2.1-.9-.9-.9-.9-2.1v-30q0-1.2.9-2.1.9-.9 2.1-.9h20.25L15 25.7v12.7h12.7L42 24v20.4q0 1.2-.9 2.1-.9.9-2.1.9Zm9-12v-8.5l15.1-15.1 8.55 8.4L26.5 35.4Zm25.8-17.35-8.55-8.4L38.1 6.8q.85-.85 2.125-.85t2.125.9l4.2 4.25q.85.9.85 2.125t-.9 2.075Z" />
-                                </svg>
-                                </Link>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50">
-                            <td class="py-3 px-3.5">2</td>
-                            <td class="py-3 px-3.5">Sakura bebans</td>
-                            <td class="py-3 px-3.5">Silver</td>
-                            <td class="py-3 px-3.5">+6281265429831</td>
-                            <td class="py-3 px-3.5">sakura@gmail.com</td>
-                            <td class="py-3 px-3.5">25-11-22</td>
-                            <td class="py-3 px-3.5">25-12-22</td>
-                            <td class="py-3 px-3.5"></td>
-                        </tr>
-                    </template>
                 </TableList>
             </div>
         </div>

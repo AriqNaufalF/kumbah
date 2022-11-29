@@ -42,7 +42,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('employee/AddEmployee');
     })->name('employee.add');
 
-    Route::get('/employee/edit', function () {
+    Route::get('/employee/edit/{id}', function () {
         return Inertia::render('employee/EditEmployee', ['name' => 'Ariq', 'gender' => '1']);
     })->name('employee.edit');
 
@@ -55,7 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('member/AddMember');
     })->name('member.add');
 
-    Route::get('/member/edit', function () {
+    Route::get('/member/edit/{id}', function () {
         return Inertia::render('member/EditMember', ['name' => 'Daisuke']);
     })->name('member.edit');
 
