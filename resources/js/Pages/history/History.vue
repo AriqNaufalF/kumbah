@@ -4,14 +4,14 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 
 const head = [
-    { key: 'id', label: 'ID', sortable: true },
-    { key: 'name', label: 'Customer Name', sortable: true },
-    { key: 'service', label: 'Service', sortable: true },
-    { key: 'quantity', label: 'Quantity', sortable: true },
-    { key: 'discount', label: 'Discount', sortable: true },
-    { key: 'subTotal', label: 'Sub Total', sortable: true },
-    { key: 'totalPrice', label: 'Total Price', sortable: true },
-    { key: 'date', label: 'Date', sortable: true },
+    { key: 'id', label: 'ID', sortable: true, type: 'Number' },
+    { key: 'name', label: 'Customer Name', sortable: true, type: 'String' },
+    { key: 'service', label: 'Service', sortable: true, type: 'String' },
+    { key: 'quantity', label: 'Quantity', sortable: true, type: 'String' },
+    { key: 'discount', label: 'Discount', sortable: true, type: 'String' },
+    { key: 'subTotal', label: 'Sub Total', sortable: true, type: 'String' },
+    { key: 'totalPrice', label: 'Total Price', sortable: true, type: 'String' },
+    { key: 'date', label: 'Date', sortable: true, type: 'String' },
 ];
 
 const historyData = [
@@ -21,7 +21,7 @@ const historyData = [
 
 <template>
 
-    <Head title="Employee" />
+    <Head title="History" />
 
     <AuthenticatedLayout>
         <div class="py-10 px-6 mx-auto">

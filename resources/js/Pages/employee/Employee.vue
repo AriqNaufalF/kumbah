@@ -5,13 +5,13 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/inertia-vue3';
 
 const head = [
-    { key: 'id', label: 'ID', sortable: true },
-    { key: 'name', label: 'Name', sortable: true },
-    { key: 'gender', label: 'Gender', sortable: true },
+    { key: 'id', label: 'ID', sortable: true, type: 'Number' },
+    { key: 'name', label: 'Name', sortable: true, type: 'String' },
+    { key: 'gender', label: 'Gender', sortable: true, type: 'String' },
     { key: 'address', label: 'Address', sortable: false },
     { key: 'phone', label: 'Phone Number', sortable: false },
     { key: 'email', label: 'Email', sortable: false },
-    { key: 'job', label: 'Job', sortable: true },
+    { key: 'job', label: 'Job', sortable: true, type: 'String' },
 ];
 
 const employeeData = [

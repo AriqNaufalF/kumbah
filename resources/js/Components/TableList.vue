@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { Link } from "@inertiajs/inertia-vue3";
 
 const props = defineProps({
@@ -22,20 +22,31 @@ const props = defineProps({
 
 const originalData = [...props.data];
 const sortDesc = ref(null);
-const sortBy = ref(null);
+const sortBy = reactive({
+    col: null,
+    type: null,
+});
 const sortedData = computed(() => {
     const { data } = props;
     if (sortDesc.value === null) return originalData;
 
-    if (sortDesc.value) {
-        return data.sort((a, b) => b[sortBy.value] > a[sortBy.value] ? 1 : -1);
+    if (sortBy.type === 'String') {
+        if (sortDesc.value) {
+            return data.sort((a, b) => b[sortBy.col].localeCompare(a[sortBy.col], undefined, { numeric: true }));
+        } else {
+            return data.sort((a, b) => a[sortBy.col].localeCompare(b[sortBy.col], undefined, { numeric: true }));
+        }
     } else {
-        return data.sort((a, b) => b[sortBy.value] < a[sortBy.value] ? 1 : -1);
+        if (sortDesc.value) {
+            return data.sort((a, b) => b[sortBy.col] - a[sortBy.col]);
+        } else {
+            return data.sort((a, b) => a[sortBy.col] - b[sortBy.col]);
+        }
     }
 })
 
-function setSort(key) {
-    if (sortBy.value === key) {
+function setSort(key, type) {
+    if (sortBy.col === key) {
         if (sortDesc.value === null) {
             sortDesc.value = false;
         } else if (sortDesc.value) {
@@ -44,9 +55,10 @@ function setSort(key) {
             sortDesc.value = true;
         }
     } else {
-        sortBy.value = key;
+        sortBy.col = key;
         sortDesc.value = false;
     }
+    sortBy.type = type;
 }
 </script>
 
@@ -57,11 +69,11 @@ function setSort(key) {
             <table class="w-full text-sm">
                 <thead class="font-medium uppercase border-b-[3px] border-primary-800">
                     <tr>
-                        <template v-for="({ key, label, sortable }) in head">
-                            <th v-if="sortable" @click="setSort(key)"
+                        <template v-for="({ key, label, sortable, type }) in head">
+                            <th v-if="sortable" @click="setSort(key, type)"
                                 class="relative py-3 px-3.5 cursor-pointer select-none">
                                 {{ label }}
-                                <template v-if="sortBy === key">
+                                <template v-if="sortBy.col === key">
                                     <span v-if="sortDesc === true"
                                         class="absolute top-1/2 right-1.5 -translate-y-1/2 w-0 h-0 border-b-8 border-x-4 border-x-transparent border-b-black"
                                         aria-label="descending order"></span>

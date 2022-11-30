@@ -16,15 +16,15 @@ const modal = {
 };
 
 const head = [
-    { key: 'id', label: 'ID', sortable: true },
-    { key: 'name', label: 'Service Name', sortable: true },
-    { key: 'price', label: 'Price', sortable: true },
+    { key: 'id', label: 'ID', sortable: true, type: 'Number' },
+    { key: 'name', label: 'Service Name', sortable: true, type: 'String' },
+    { key: 'price', label: 'Price', sortable: true, type: 'Number' },
     { key: 'unit', label: 'Unit', sortable: false },
 ]
 const data = [
-    { id: 1, name: 'Cuci cepat', price: '8.000', unit: 'Kg' },
-    { id: 2, name: 'Cuci normal', price: '5.000', unit: 'Kg' },
-    { id: 3, name: 'Cuci seprai', price: '10.000', unit: 'Pcs' },
+    { id: 1, name: 'Cuci cepat', price: 8000, unit: 'Kg' },
+    { id: 2, name: 'Cuci normal', price: 5000, unit: 'Kg' },
+    { id: 3, name: 'Cuci seprai', price: 10000, unit: 'Pcs' },
 ];
 
 const form = useForm({

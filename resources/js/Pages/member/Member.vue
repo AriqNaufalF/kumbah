@@ -16,13 +16,13 @@ const form = useForm({
 });
 
 const head = [
-    { key: 'id', label: 'ID', sortable: true },
-    { key: 'name', label: 'Name', sortable: true },
-    { key: 'type', label: 'Member Type', sortable: true },
+    { key: 'id', label: 'ID', sortable: true, type: 'Number' },
+    { key: 'name', label: 'Name', sortable: true, type: 'String' },
+    { key: 'type', label: 'Member Type', sortable: true, type: 'String' },
     { key: 'phone', label: 'Phone Number', sortable: false },
     { key: 'email', label: 'Email', sortable: false },
-    { key: 'start', label: 'Join Date', sortable: true },
-    { key: 'end', label: 'Expire Date', sortable: true },
+    { key: 'start', label: 'Join Date', sortable: true, type: 'String' },
+    { key: 'end', label: 'Expire Date', sortable: true, type: 'String' },
 ];
 const memberData = [
     { id: 1, name: 'Daisuke', type: 'Gold', phone: '+62812123654782', email: 'daisuke@gmail.com', start: '11-11-22', end: '12-12-22' },
