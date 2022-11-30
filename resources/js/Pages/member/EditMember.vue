@@ -33,7 +33,7 @@ function deleteMember() {
 
 <template>
 
-    <Head title="Add Employee" />
+    <Head title="Edit Member" />
     <AuthenticatedLayout>
         <div class="py-10 px-6 mx-auto">
             <div class="text-center">

@@ -56,7 +56,7 @@ function closeForm() {
 
 <template>
 
-    <Head title="Employee" />
+    <Head title="Member" />
 
     <AuthenticatedLayout>
         <div class="py-10 px-6 mx-auto">

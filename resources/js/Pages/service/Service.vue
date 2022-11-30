@@ -74,7 +74,7 @@ function closeModal() {
 
 <template>
 
-    <Head title="Employee" />
+    <Head title="Service" />
 
     <AuthenticatedLayout>
         <div class="py-10 px-6 mx-auto">
