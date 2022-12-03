@@ -8,6 +8,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import { ref } from 'vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
+import MemberCard from '@/Components/MemberCard.vue';
 
 const showModal = ref(false);
 const form = useForm({
@@ -66,21 +67,13 @@ function closeForm() {
             <!-- Member type -->
             <div class="mt-10 mx-auto max-w-7xl">
                 <div class="p-6 bg-white shadow-lg rounded-lg">
-                    <div class="grid grid-flow-col gap-4 xl:grid-cols-3 2xl:justify-items-center 2xl:gap-0">
+                    <div class="flex gap-4 overflow-x-auto lg:justify-evenly 2xl:gap-0">
                         <!-- Card -->
-                        <div class="relative p-3 pr-10 w-full h-28 max-w-xs bg-primary-800 text-white rounded-md 2xl:h-32 2xl:max-w-sm"
-                            v-for="item in memberType">
-                            <button type="button" class="absolute top-3 right-3" @click="editType(item)">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
-                                    class="inline hover:scale-x-110 fill-white">
-                                    <path
-                                        d="M9 47.4q-1.2 0-2.1-.9-.9-.9-.9-2.1v-30q0-1.2.9-2.1.9-.9 2.1-.9h20.25L15 25.7v12.7h12.7L42 24v20.4q0 1.2-.9 2.1-.9.9-2.1.9Zm9-12v-8.5l15.1-15.1 8.55 8.4L26.5 35.4Zm25.8-17.35-8.55-8.4L38.1 6.8q.85-.85 2.125-.85t2.125.9l4.2 4.25q.85.9.85 2.125t-.9 2.075Z" />
-                                </svg>
-                                <span class="sr-only">Edit member type</span>
-                            </button>
-                            tipe: {{ item.name }}
-                            diskon: {{ item.discount }}
-                        </div>
+                        <MemberCard class="bg-[url('/svg/member-card-silver.svg')]" v-for="item in memberType"
+                            @edit="editType(item)">
+                            <p class="font-semibold text-lg text-white">{{ item.name }}</p>
+                            <p class="font-medium text-sm text-white">Discount {{ item.discount }}%</p>
+                        </MemberCard>
                     </div>
                 </div>
             </div>
