@@ -13,6 +13,7 @@ const form = useForm({
     name: '',
     discount: 0,
     service: '',
+    serviceQty: 0,
     subTotal: 0,
     totalPrice: 0,
     clothes: [{
@@ -68,13 +69,23 @@ function submit() {
                                 </div>
                                 <!-- Input service -->
                                 <div class="mt-3">
-                                    <InputLabel for="service" value="Service" class="mb-2" />
-                                    <SelectInput v-model="form.service" id="service" class="w-full" required>
-                                        <option value="" selected>Select service</option>
-                                        <option value="1">Cuci normal</option>
-                                        <option value="0">Cuci cepat</option>
-                                    </SelectInput>
-                                    <InputError :message="form.errors.gender" class="mt-1.5" />
+                                    <div class="flex gap-3">
+                                        <div class="w-full">
+                                            <InputLabel for="service" value="Service" class="mb-2" />
+                                            <SelectInput v-model="form.service" id="service" class="w-full" required>
+                                                <option value="" selected>Select service</option>
+                                                <option value="1">Cuci normal</option>
+                                                <option value="0">Cuci cepat</option>
+                                            </SelectInput>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <InputLabel for="serviceQty" value="Quantity" class="mb-2" />
+                                            <TextInput v-model="form.serviceQty" id="serviceQty" type="number"
+                                                class="max-w-[120px] w-full" required />
+                                        </div>
+                                    </div>
+                                    <InputError :message="form.errors.service" class="mt-1.5" />
+                                    <InputError :message="form.errors.serviceQty" class="mt-1.5" />
                                 </div>
                             </div>
                             <div class="h-full flex flex-col">
@@ -116,7 +127,7 @@ function submit() {
                                     <div>
                                         <InputLabel :for="`quantity[${index}]`" value="Quantity" class="mb-2" />
                                         <TextInput v-model="item.quantity" :id="`quantity[${index}]`" type="number"
-                                            class="max-w-[120px]" />
+                                            class="max-w-[120px] w-full" />
                                         <InputError :message="form.errors[`clotes.${index}.quantity`]" class="mt-1.5" />
                                     </div>
                                     <button type="button" class="mb-2.5 px-3 hover:scale-105"
