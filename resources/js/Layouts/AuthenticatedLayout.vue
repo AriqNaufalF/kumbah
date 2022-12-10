@@ -29,7 +29,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                                 </template>
                             </NavLink>
                         </li>
-                        <li>
+                        <li v-if="$page.props.auth.user.isAdmin">
                             <NavLink :href="route('employee')" :active="route().current('employee*')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="25" width="25"
                                     class="fill-current">

@@ -1,6 +1,7 @@
 <template>
     <div class="relative py-3.5 pl-7 pr-10 min-w-[160px] w-60 aspect-video bg-no-repeat bg-cover rounded-md 2xl:w-80">
-        <button type="button" class="absolute top-3 right-3" @click="$emit('edit')">
+        <button v-if="$page.props.auth.user.isAdmin" type="button" class="absolute top-3 right-3"
+            @click="$emit('edit')">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
                 class="inline hover:scale-x-110 fill-white">
                 <path
