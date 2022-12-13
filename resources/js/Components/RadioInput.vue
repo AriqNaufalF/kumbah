@@ -11,7 +11,6 @@ const props = defineProps({
         default: 'group',
     },
     value: {
-        type: String,
         default: undefined,
     },
     checked: {

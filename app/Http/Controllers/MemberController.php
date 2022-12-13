@@ -5,18 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Member;
+use App\Models\MemberType;
 use Inertia\Inertia;
 
 class MemberController extends Controller
 {
     public function index()
     {
-        $members = Member::select('members.id', 'members.name', 'member_types.name as member_type',
-                                  'members.phone', 'members.email', 'members.join_date', 'members.expired_date')
-                        ->join('member_types', 'members.member_type_id', '=', 'member_types.id')
-                        ->orderBy('id', 'asc')
-                        ->get();
-        return Inertia::render('member/Member', compact("members"));
+        $members = Member::select(
+            'members.id',
+            'members.name',
+            'member_types.name as member_type',
+            'members.phone',
+            'members.email',
+            'members.join_date',
+            'members.expired_date'
+        )
+            ->join('member_types', 'members.member_type_id', '=', 'member_types.id')
+            ->orderBy('id', 'asc')
+            ->get();
+        $memberTypes = MemberType::all();
+        return Inertia::render('member/Member', compact("members", 'memberTypes'));
     }
 
     public function create()
@@ -50,7 +59,8 @@ class MemberController extends Controller
     public function edit($id)
     {
         $member = Member::findOrFail($id);
-        return Inertia::render('member/EditMember', compact('member'));
+        $memberTypes = MemberType::all(['id', 'name']);
+        return Inertia::render('member/EditMember', compact('member', 'memberTypes'));
     }
 
     public function update(Request $req)

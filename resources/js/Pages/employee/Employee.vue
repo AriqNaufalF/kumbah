@@ -2,7 +2,7 @@
 import ButtonLink from '@/Components/ButtonLink.vue';
 import TableList from '@/Components/TableList.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, usePage } from '@inertiajs/inertia-vue3';
 
 const head = [
     { key: 'id', label: 'ID', sortable: true, type: 'Number' },
@@ -11,14 +11,9 @@ const head = [
     { key: 'address', label: 'Address', sortable: false },
     { key: 'phone', label: 'Phone Number', sortable: false },
     { key: 'email', label: 'Email', sortable: false },
-    { key: 'job', label: 'Job', sortable: true, type: 'String' },
 ];
 
-const employeeData = [
-    { id: 1, name: 'Ariq Naufal', gender: 'Male', address: 'Bandung', phone: '082246791678', email: 'ariqn55@gmail.com', job: 'admin' },
-    { id: 2, name: 'Wira ara-ara', gender: 'Male', address: 'Wonosobo', phone: '082224179207', email: 'wirachan@gmail.com', job: 'employee' },
-    { id: 3, name: 'Agung isra', gender: 'Male', address: 'Sumatera', phone: '081277116006', email: 'agungisra@gmail.com', job: 'yutuber' },
-]
+const employeeData = usePage().props.value.employees;
 </script>
 
 <template>

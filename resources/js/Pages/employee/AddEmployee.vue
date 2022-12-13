@@ -53,7 +53,7 @@ function submit() {
                                     <SelectInput v-model="form.gender" id="gender" class="w-full" required>
                                         <option value="" selected>Select gender</option>
                                         <option value="1">Male</option>
-                                        <option value="0">Female</option>
+                                        <option value="2">Female</option>
                                     </SelectInput>
                                     <InputError :message="form.errors.gender" class="mt-1.5" />
                                 </div>

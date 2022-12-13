@@ -1,8 +1,8 @@
 <template>
     <div class="relative py-3.5 pl-7 pr-3.5 min-w-[160px] w-60 aspect-video rounded-md 2xl:w-80">
-        <div class="grid grid-cols-2 grid-rows-2 h-full">
+        <div class="grid grid-cols-3 grid-rows-2 h-full">
             <button v-if="$page.props.auth.user.isAdmin" type="button" @click="$emit('edit')"
-                class="col-start-2 row-start-1 max-w-min self-start justify-self-end">
+                class="col-start-3 row-start-1 max-w-min self-start justify-self-end">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
                     class="inline hover:scale-x-110 fill-white">
                     <path

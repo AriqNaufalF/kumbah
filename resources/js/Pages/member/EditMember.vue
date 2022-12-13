@@ -11,13 +11,15 @@ import { useForm, Head, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
 
 const showModal = ref(false);
+const { name, email, member_type_id, phone, join_date, expired_date } = usePage().props.value.member;
+const memberTypes = usePage().props.value.memberTypes;
 const form = useForm({
-    name: usePage().props.value.name,
-    email: '',
-    phone: '',
-    type: 'silver',
-    start: '',
-    end: '',
+    name: name,
+    email: email,
+    phone: phone,
+    type: member_type_id,
+    start: join_date,
+    end: expired_date,
 })
 
 function submit() {
@@ -60,11 +62,8 @@ function deleteMember() {
                                 <!-- Input type -->
                                 <div class="mt-3">
                                     <span class="block mb-2 font-medium text-sm">Member Type</span>
-                                    <RadioInput v-model:checked="form.type" name="type" value="silver" label="Silver" />
-                                    <RadioInput v-model:checked="form.type" name="type" value="gold" label="Gold"
-                                        class="mt-2" />
-                                    <RadioInput v-model:checked="form.type" name="type" value="platinum"
-                                        label="Platinum" class="mt-2" />
+                                    <RadioInput v-for="({ id, name }) in memberTypes" v-model:checked="form.type"
+                                        name="type" :value="id" :label="name" />
                                     <InputError :message="form.errors.type" class="mt-1.5" />
                                 </div>
                             </div>

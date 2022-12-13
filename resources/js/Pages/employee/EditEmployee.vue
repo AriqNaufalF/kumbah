@@ -13,18 +13,19 @@ import { useForm, Head, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
 
 const showModal = ref(false);
+const { id, name, email, gender, phone, address, isAdmin } = usePage().props.value.employee;
 const form = useForm({
-    name: usePage().props.value.name,
-    email: '',
-    gender: usePage().props.value.gender,
-    phone: '',
-    address: '',
+    name: name,
+    email: email,
+    gender: gender,
+    phone: phone,
+    address: address,
     password: '',
-    isAdmin: false
-})
+    isAdmin: !!isAdmin
+});
 
 function submit() {
-    form.post(route('employee.update'), {
+    form.post(route('employee.update', id), {
         onSuccess: () => form.reset()
     });
 }
@@ -61,7 +62,7 @@ function deleteAccount() {
                                     <SelectInput v-model="form.gender" id="gender" class="w-full" required>
                                         <option value="" selected>Select gender</option>
                                         <option value="1">Male</option>
-                                        <option value="0">Female</option>
+                                        <option value="2">Female</option>
                                     </SelectInput>
                                     <InputError :message="form.errors.gender" class="mt-1.5" />
                                 </div>

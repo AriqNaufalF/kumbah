@@ -1,14 +1,15 @@
 <script setup>
 import ButtonLink from '@/Components/ButtonLink.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import MemberCard from '@/Components/MemberCard.vue';
 import Modal from '@/Components/Modal.vue';
 import TableList from '@/Components/TableList.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
+import { decimalToPercent, toRupiah } from "@/functions/numberFormat.js";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
-import MemberCard from '@/Components/MemberCard.vue';
 
 const showModal = ref(false);
 const form = useForm({
@@ -20,21 +21,15 @@ const form = useForm({
 const head = [
     { key: 'id', label: 'ID', sortable: true, type: 'Number' },
     { key: 'name', label: 'Name', sortable: true, type: 'String' },
-    { key: 'type', label: 'Member Type', sortable: true, type: 'String' },
+    { key: 'member_type', label: 'Member Type', sortable: true, type: 'String' },
     { key: 'phone', label: 'Phone Number', sortable: false },
     { key: 'email', label: 'Email', sortable: false },
-    { key: 'start', label: 'Join Date', sortable: true, type: 'String' },
-    { key: 'end', label: 'Expire Date', sortable: true, type: 'String' },
+    { key: 'join_date', label: 'Join Date', sortable: true, type: 'String' },
+    { key: 'expired_date', label: 'Expired Date', sortable: true, type: 'String' },
 ];
-const memberData = [
-    { id: 1, name: 'Daisuke', type: 'Gold', phone: '+62812123654782', email: 'daisuke@gmail.com', start: '11-11-22', end: '12-12-22' },
-    { id: 2, name: 'Sakura bebans', type: 'Silver', phone: '+62812123654782', email: 'sakura@gmail.com', start: '25-11-22', end: '12-12-22' },
-]
-const memberType = [
-    { name: 'Silver', discount: 5, price: 10000 },
-    { name: 'Gold', discount: 10, price: 12000 },
-    { name: 'Platinum', discount: 15, price: 15000 },
-]
+
+const memberData = usePage().props.value.members;
+const memberTypes = usePage().props.value.memberTypes;
 
 function editType(item) {
     showModal.value = true;
@@ -72,14 +67,15 @@ function closeForm() {
                     <div class="flex gap-4 overflow-x-auto lg:justify-evenly 2xl:gap-0">
                         <!-- Card silver -->
                         <MemberCard :class="`${item.name.toLowerCase()}-card`" @edit="editType(item)"
-                            v-for="item in memberType">
-                            <div class="col-start-1 row-start-1">
+                            v-for="item in memberTypes">
+                            <div class="col-start-1 row-start-1 col-span-2">
                                 <p class="font-semibold text-lg leading-4 text-white">{{ item.name }}</p>
-                                <p class="font-medium text-sm text-white">Discount {{ item.discount }}%</p>
+                                <p class="font-medium text-sm text-white">Discount {{ decimalToPercent(item.discount) }}
+                                </p>
                             </div>
-                            <div class="col-start-2 row-start-2 self-end justify-self-end">
+                            <div class="col-start-2 row-start-2 col-span-2 self-end justify-self-end">
                                 <p class="font-medium text-sm leading-4 text-white">Price</p>
-                                <p class="font-semibold text-lg text-white">{{ item.price }}</p>
+                                <p class="font-semibold text-lg text-white">{{ toRupiah(item.price) }}</p>
                             </div>
                         </MemberCard>
                     </div>
@@ -99,7 +95,7 @@ function closeForm() {
                 <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">{{ form.name }} Type</h3>
                 <!-- Input discount -->
                 <div>
-                    <InputLabel for="discount" value="Discount" class="mb-2" />
+                    <InputLabel for="discount" value="Discount (decimal)" class="mb-2" />
                     <TextInput v-model="form.discount" id="discount" type="number" class="w-full" required />
                     <InputError :message="form.errors.discount" class="mt-1.5" />
                 </div>

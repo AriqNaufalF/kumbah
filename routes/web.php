@@ -19,36 +19,29 @@ use App\Http\Controllers\MemberController;
 |
 */
 
-Route::get('/', function () 
-{
+Route::get('/', function () {
     return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () 
-{
-    Route::get('/dashboard', function () 
-    {
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::prefix("employee")->group(function()
-    {
-        Route::controller(EmployeeController::class)->group(function () 
-        {
+    Route::prefix("employee")->group(function () {
+        Route::controller(EmployeeController::class)->group(function () {
             Route::get('', 'index')->name('employee.index');
             Route::get('create', 'create')->name('employee.create');
             Route::post('store', 'store')->name('employee.store');
             Route::get('edit/{id}', 'edit')->name('employee.edit');
-            Route::post('update', 'update')->name('employee.update');
+            Route::post('update/{id}', 'update')->name('employee.update');
         });
     });
 
-    Route::prefix("member")->group(function()
-    {
-        Route::controller(MemberController::class)->group(function () 
-        {
+    Route::prefix("member")->group(function () {
+        Route::controller(MemberController::class)->group(function () {
             Route::get('', 'index')->name('member.index');
             Route::get('create', 'create')->name('member.create');
             Route::post('store', 'store')->name('member.store');

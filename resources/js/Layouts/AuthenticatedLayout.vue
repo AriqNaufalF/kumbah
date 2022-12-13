@@ -1,11 +1,13 @@
 <script setup>
+import FlashMessage from '@/Components/FlashMessage.vue';
 import NavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 </script>
 
 <template>
     <div class="min-h-screen bg-[#f9f9f9]">
-        <nav class="fixed top-0 bottom-0 w-56 bg-primary-800 shadow-[0_4px_12px_-3px_rgba(0,0,0,0.3)] overflow-y-auto">
+        <nav
+            class="fixed top-0 bottom-0 z-40 w-56 bg-primary-800 shadow-[0_4px_12px_-3px_rgba(0,0,0,0.3)] overflow-y-auto">
             <div class="flex flex-col min-h-screen p-4">
                 <!-- Header -->
                 <div class="mt-2.5 mb-6 max-h-min text-white text-center">
@@ -97,8 +99,9 @@ import { Link } from '@inertiajs/inertia-vue3';
                 </div>
             </div>
         </nav>
+        <FlashMessage />
         <!-- Page Content -->
-        <main class="float-right w-[calc(100%-theme(width.56))]">
+        <main class="ml-auto w-[calc(100%-theme(width.56))]">
             <slot />
         </main>
     </div>
