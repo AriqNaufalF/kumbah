@@ -5,6 +5,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\MemberController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,48 +19,68 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
+Route::get('/', function () 
+{
+    return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
+Route::middleware(['auth', 'verified'])->group(function () 
+{
+    Route::get('/dashboard', function () 
+    {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::prefix("employee")->group(function()
+    {
+        Route::controller(EmployeeController::class)->group(function () 
+        {
+            Route::get('', 'index')->name('employee.index');
+            Route::get('create', 'create')->name('employee.create');
+            Route::post('store', 'store')->name('employee.store');
+            Route::get('edit/{id}', 'edit')->name('employee.edit');
+            Route::post('update', 'update')->name('employee.update');
+        });
+    });
+
+    Route::prefix("member")->group(function()
+    {
+        Route::controller(MemberController::class)->group(function () 
+        {
+            Route::get('', 'index')->name('member.index');
+            Route::get('create', 'create')->name('member.create');
+            Route::post('store', 'store')->name('member.store');
+            Route::get('edit/{id}', 'edit')->name('member.edit');
+            Route::post('update', 'update')->name('member.update');
+        });
+    });
 
     Route::get('/add-order', function () {
         return Inertia::render('AddOrder');
     })->name('addOrder');
 
-    Route::get('/employee', function () {
-        return Inertia::render('employee/Employee');
-    })->name('employee');
+    // Route::get('/employee/add', function () {
+    //     return Inertia::render('employee/AddEmployee');
+    // })->name('employee.add');
 
-    Route::get('/employee/add', function () {
-        return Inertia::render('employee/AddEmployee');
-    })->name('employee.add');
+    // Route::get('/employee/edit/{id}', function () {
+    //     return Inertia::render('employee/EditEmployee', ['name' => 'Ariq', 'gender' => '1']);
+    // })->name('employee.edit');
 
-    Route::get('/employee/edit/{id}', function () {
-        return Inertia::render('employee/EditEmployee', ['name' => 'Ariq', 'gender' => '1']);
-    })->name('employee.edit');
-
-    Route::get('/member', function () {
-        return Inertia::render('member/Member');
-    })->name('member');
+    // Route::get('/member', function () {
+    //     return Inertia::render('member/Member');
+    // })->name('member');
 
 
-    Route::get('/member/add', function () {
-        return Inertia::render('member/AddMember');
-    })->name('member.add');
+    // Route::get('/member/add', function () {
+    //     return Inertia::render('member/AddMember');
+    // })->name('member.add');
 
-    Route::get('/member/edit/{id}', function () {
-        return Inertia::render('member/EditMember', ['name' => 'Daisuke']);
-    })->name('member.edit');
+    // Route::get('/member/edit/{id}', function () {
+    //     return Inertia::render('member/EditMember', ['name' => 'Daisuke']);
+    // })->name('member.edit');
 
     Route::get('/service', function () {
         return Inertia::render('service/Service');
@@ -66,14 +89,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/history', function () {
         return Inertia::render('history/History');
     })->name('history');
-
-    Route::post('/test', function (Request $request) {
-        dd($request);
-        // $request->validate([
-        //     'name' => 'string|max:5'
-        // ]);
-        return back();
-    })->name('test');
 
     Route::delete('/delete', function (Request $request) {
         return redirect('/employee');

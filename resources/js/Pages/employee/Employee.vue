@@ -33,7 +33,7 @@ const employeeData = [
             <div class="mt-20 mx-auto max-w-7xl">
                 <TableList :head="head" :data="employeeData" url="employee.edit">
                     <div class="flex justify-end mb-5">
-                        <ButtonLink :href="route('employee.add')" text="Add Employee" />
+                        <ButtonLink :href="route('employee.create')" text="Add Employee" />
                     </div>
                 </TableList>
             </div>

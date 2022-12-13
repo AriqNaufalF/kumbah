@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'name' => "Admin Kumbah",
             'gender' => mt_rand(1, 2),
             'address' => "Bandung",
-            'phone' => "0822-xxxx-xxxx",
+            'phone' => "0822xxxxxxxx",
             'email' => "admin@kumbah.com",
             'password' => Hash::make("123456789"), // admin123
             'isAdmin' => true,

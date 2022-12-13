@@ -30,7 +30,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                             </NavLink>
                         </li>
                         <li v-if="$page.props.auth.user.isAdmin">
-                            <NavLink :href="route('employee')" :active="route().current('employee*')">
+                            <NavLink :href="route('employee.index')" :active="route().current('employee*')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="25" width="25"
                                     class="fill-current">
                                     <path
@@ -40,7 +40,7 @@ import { Link } from '@inertiajs/inertia-vue3';
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink :href="route('member')" :active="route().current('member*')">
+                            <NavLink :href="route('member.index')" :active="route().current('member*')">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height="25" width="25"
                                     class="fill-current">
                                     <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->

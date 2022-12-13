@@ -17,7 +17,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('test'), {
+    form.post(route('member.store'), {
         onSuccess: () => form.reset()
     })
 }
@@ -53,10 +53,10 @@ function submit() {
                                 <!-- Input type -->
                                 <div class="mt-3">
                                     <span class="block mb-2 font-medium text-sm">Member Type</span>
-                                    <RadioInput v-model:checked="form.type" name="type" value="silver" label="Silver" />
-                                    <RadioInput v-model:checked="form.type" name="type" value="gold" label="Gold"
+                                    <RadioInput v-model:checked="form.type" name="type" value="1" label="Silver" />
+                                    <RadioInput v-model:checked="form.type" name="type" value="2" label="Gold"
                                         class="mt-2" />
-                                    <RadioInput v-model:checked="form.type" name="type" value="platinum"
+                                    <RadioInput v-model:checked="form.type" name="type" value="3"
                                         label="Platinum" class="mt-2" />
                                     <InputError :message="form.errors.type" class="mt-1.5" />
                                 </div>

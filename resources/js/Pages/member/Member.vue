@@ -81,7 +81,7 @@ function closeForm() {
             <div class="mt-10 mx-auto max-w-7xl">
                 <TableList :head="head" :data="memberData" url="member.edit">
                     <div class="flex justify-end mb-5">
-                        <ButtonLink :href="route('member.add')" text="Add Member" />
+                        <ButtonLink :href="route('member.create')" text="Add Member" />
                     </div>
                 </TableList>
             </div>

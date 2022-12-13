@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MemberType extends Model
 {
     use HasFactory;
+
+    protected $table    = 'member_types';
+    protected $fillable = ['name', 'price', 'discount'];
 }

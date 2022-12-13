@@ -24,7 +24,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('test'), {
+    form.post(route('employee.update'), {
         onSuccess: () => form.reset()
     });
 }

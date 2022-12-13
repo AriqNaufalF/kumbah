@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'gender' => mt_rand(1, 2),
             'address' => $this->faker->address(),
-            'phone' => $this->faker->numerify('0822-####-####'),
+            'phone' => $this->faker->numerify('0822########'),
             'email' => $this->faker->unique()->safeEmail(),
             'password' => Hash::make("123456789"), // admin
             'isAdmin' => false,
