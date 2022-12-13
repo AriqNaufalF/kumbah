@@ -7,6 +7,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +58,16 @@ Route::middleware(['auth', 'verified'])->group(function ()
         });
     });
 
+    Route::prefix("service")->group(function()
+    {
+        Route::controller(ServiceController::class)->group(function () 
+        {
+            Route::get('', 'index')->name('service.index');
+            Route::post('store', 'store')->name('service.store');
+            Route::post('update', 'update')->name('service.update');
+        });
+    });
+
     Route::get('/add-order', function () {
         return Inertia::render('AddOrder');
     })->name('addOrder');
@@ -82,9 +93,9 @@ Route::middleware(['auth', 'verified'])->group(function ()
     //     return Inertia::render('member/EditMember', ['name' => 'Daisuke']);
     // })->name('member.edit');
 
-    Route::get('/service', function () {
-        return Inertia::render('service/Service');
-    })->name('service');
+    // Route::get('/service', function () {
+    //     return Inertia::render('service/Service');
+    // })->name('service');
 
     Route::get('/history', function () {
         return Inertia::render('history/History');

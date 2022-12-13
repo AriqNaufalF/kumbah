@@ -52,13 +52,13 @@ function showModal(type, item) {
 
 function submit(type) {
     if (type === 'add') {
-        form.post(route('test'), {
+        form.post(route('service.store'), {
             onSuccess() {
                 closeModal();
             }
         });
     } else {
-        form.post(route('test'), {
+        form.post(route('service.update'), {
             onSuccess() {
                 closeModal();
             }

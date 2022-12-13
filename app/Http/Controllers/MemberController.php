@@ -59,12 +59,17 @@ class MemberController extends Controller
             'name' => 'required|max:100',
             'type' => 'required',
             'phone' => 'required|numeric|max_digits:13',
-            'email' => 'required|email|unique:members',
             'start' => 'required|date|after_or_equal:today',
             'end' => 'required|date|after:start'
         ]);
 
         $member = Member::findOrFail($req->id);
+
+        if ($member->email != $req->email)
+        {
+            $req->validate(['email' => 'required|email|unique:members',]);
+        }
+
         $member->name = $req->name;
         $member->member_type_id = $req->type;
         $member->phone = $req->phone;

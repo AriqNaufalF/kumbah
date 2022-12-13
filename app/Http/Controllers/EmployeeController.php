@@ -23,7 +23,6 @@ class EmployeeController extends Controller
                             )
                         ->orderBy('id', 'asc')
                         ->get();
-        dd($employees);
         return Inertia::render('employee/Employee', compact("employees"));
     }
 
@@ -68,12 +67,19 @@ class EmployeeController extends Controller
             'name' => 'required|max:100',
             'gender' => 'required',
             'address' => 'required|max:100',
-            'email' => 'required|email|unique:users',
             'phone' => 'required|numeric|max_digits:13',
             'password' => 'required|min:8|max:16',
         ]);
 
         $employee = User::findOrFail($req->id);
+
+        if ($employee->email != $req->email)
+        {
+            $req->validate([
+                'email' => 'required|email|unique:users',
+            ]);
+        }
+
         $employee->name = $req->name;
         $employee->gender = $req->gender;
         $employee->address = $req->address;
