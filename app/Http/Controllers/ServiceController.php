@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Service;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class ServiceController extends Controller
@@ -28,6 +29,8 @@ class ServiceController extends Controller
         $service->price = $req->price;
         $service->unit = $req->unit;
         $service->save();
+
+        return redirect('service')->with('success', 'Service added.');
     }
 
     public function update(Request $req)
@@ -43,5 +46,7 @@ class ServiceController extends Controller
         $service->price = $req->price;
         $service->unit = $req->unit;
         $service->save();
+
+        return Redirect::back()->with('success', 'Service edited.');
     }
 }

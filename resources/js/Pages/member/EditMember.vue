@@ -11,7 +11,7 @@ import { useForm, Head, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
 
 const showModal = ref(false);
-const { name, email, member_type_id, phone, join_date, expired_date } = usePage().props.value.member;
+const { id, name, email, member_type_id, phone, join_date, expired_date } = usePage().props.value.member;
 const memberTypes = usePage().props.value.memberTypes;
 const form = useForm({
     name: name,
@@ -23,7 +23,7 @@ const form = useForm({
 })
 
 function submit() {
-    form.post(route('member.update'), {
+    form.post(route('member.update', id), {
         onSuccess: () => form.reset()
     });
 }

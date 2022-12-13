@@ -1,12 +1,12 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import Modal from '@/Components/Modal.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TableList from '@/Components/TableList.vue';
-import Modal from '@/Components/Modal.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
 
 const modal = {
@@ -21,13 +21,10 @@ const head = [
     { key: 'price', label: 'Price', sortable: true, type: 'Number' },
     { key: 'unit', label: 'Unit', sortable: false },
 ]
-const data = [
-    { id: 1, name: 'Cuci cepat', price: 8000, unit: 'Kg' },
-    { id: 2, name: 'Cuci normal', price: 5000, unit: 'Kg' },
-    { id: 3, name: 'Cuci seprai', price: 10000, unit: 'Pcs' },
-];
+const data = usePage().props.value.services;
 
 const form = useForm({
+    id: '',
     name: '',
     price: '',
     unit: '',
@@ -37,6 +34,7 @@ function showModal(type, item) {
     const { show, title, btnText } = modal;
 
     if (type === 'edit') {
+        form.id = item.id;
         form.name = item.name;
         form.price = item.price;
         form.unit = item.unit;
@@ -51,17 +49,19 @@ function showModal(type, item) {
 }
 
 function submit(type) {
-    if (type === 'add') {
+    if (type === 'Add') {
         form.post(route('service.store'), {
             onSuccess() {
                 closeModal();
-            }
+            },
+            preserveState: false
         });
     } else {
         form.post(route('service.update'), {
             onSuccess() {
                 closeModal();
-            }
+            },
+            preserveState: false
         });
     }
 }
@@ -93,7 +93,7 @@ function closeModal() {
         </div>
         <Teleport to="body">
             <!-- Add modal -->
-            <Modal :show="modal.show.value" :form="true" @close="closeModal()" @ok="submit('add')">
+            <Modal :show="modal.show.value" :form="true" @close="closeModal()" @ok="submit(modal.title.value)">
                 <!-- Input name -->
                 <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">{{ modal.title.value }} Service</h3>
                 <div>

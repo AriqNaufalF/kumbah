@@ -63,7 +63,7 @@ class MemberController extends Controller
         return Inertia::render('member/EditMember', compact('member', 'memberTypes'));
     }
 
-    public function update(Request $req)
+    public function update(Request $req, $id)
     {
         $req->validate([
             'name' => 'required|max:100',
@@ -73,10 +73,9 @@ class MemberController extends Controller
             'end' => 'required|date|after:start'
         ]);
 
-        $member = Member::findOrFail($req->id);
+        $member = Member::findOrFail($id);
 
-        if ($member->email != $req->email)
-        {
+        if ($member->email != $req->email) {
             $req->validate(['email' => 'required|email|unique:members',]);
         }
 

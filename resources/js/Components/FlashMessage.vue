@@ -3,18 +3,25 @@ import { usePage } from '@inertiajs/inertia-vue3';
 import { watch, ref } from 'vue';
 
 const show = ref(false);
+const timeout = ref(null);
 watch(usePage().props.value.flash, () => {
-  show.value = true;
-  setInterval(() => {
+  setTimeout(() => {
+    show.value = true;
+  }, 500);
+  if (timeout.value) {
+    clearTimeout(timeout.value);
+  }
+  timeout.value = setTimeout(() => {
     show.value = false;
   }, 3000);
 }, { deep: true, immediate: true });
 </script>
 
 <template>
-  <Transition enter-from-class="-translate-x-full" enter-active-class="transition-all duration-300 delay-700"
-    leave-active-class="transition-all duration-300" leave-to-class="-translate-x-full">
-    <div v-if="$page.props.flash.success && show" class="fixed left-56 top-7 ">
+  <Transition enter-from-class="-translate-x-full" enter-to-class="translate-x-0"
+    enter-active-class="transition-all duration-300" leave-active-class="transition-all duration-300"
+    leave-to-class="-translate-x-full">
+    <div v-if="$page.props.flash.success && show" class="fixed left-56 top-7">
       <div class="p-3 bg-green-200 text-black border-r-8 border-green-600 rounded-r-lg">
         <div class="flex items-center gap-3">
           <div class="min-w-[theme(spacing.72)]">

@@ -47,14 +47,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('create', 'create')->name('member.create');
             Route::post('store', 'store')->name('member.store');
             Route::get('edit/{id}', 'edit')->name('member.edit');
-            Route::post('update', 'update')->name('member.update');
+            Route::post('update/{id}', 'update')->name('member.update');
         });
     });
 
-    Route::prefix("service")->group(function()
-    {
-        Route::controller(ServiceController::class)->group(function () 
-        {
+    Route::prefix("service")->group(function () {
+        Route::controller(ServiceController::class)->group(function () {
             Route::get('', 'index')->name('service.index');
             Route::post('store', 'store')->name('service.store');
             Route::post('update', 'update')->name('service.update');

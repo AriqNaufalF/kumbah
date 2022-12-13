@@ -33,7 +33,7 @@ defineProps({
                                     <SecondaryButton type="button" class="px-6 py-1.5" @click="$emit('close')">
                                         <slot name="noButton">No, cancel</slot>
                                     </SecondaryButton>
-                                    <PrimaryButton class="px-6 py-1.5 ml-4">
+                                    <PrimaryButton class="px-6 py-1.5 ml-4" @click="$emit('ok')">
                                         <slot name="yesButton">Yes, I'm sure</slot>
                                     </PrimaryButton>
                                 </div>

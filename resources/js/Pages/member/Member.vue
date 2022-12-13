@@ -42,7 +42,8 @@ function saveFormType() {
     form.post(route('test'), {
         onSuccess() {
             closeForm();
-        }
+        },
+        preserveState: false,
     })
 }
 
@@ -96,7 +97,7 @@ function closeForm() {
                 <!-- Input discount -->
                 <div>
                     <InputLabel for="discount" value="Discount (decimal)" class="mb-2" />
-                    <TextInput v-model="form.discount" id="discount" type="number" class="w-full" required />
+                    <TextInput v-model="form.discount" id="discount" type="text" class="w-full" required />
                     <InputError :message="form.errors.discount" class="mt-1.5" />
                 </div>
                 <!-- Input price -->
