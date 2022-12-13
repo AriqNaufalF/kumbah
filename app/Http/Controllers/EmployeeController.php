@@ -86,7 +86,7 @@ class EmployeeController extends Controller
             'password' => 'required|min:8|max:16',
         ]);
 
-
+        $employee = User::findOrFail($req->id);
         $employee->name = $req->name;
         $employee->gender = $req->gender;
         $employee->address = $req->address;
