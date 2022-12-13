@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Models\Member;
 use Inertia\Inertia;
-use DB;
 
 class MemberController extends Controller
 {
@@ -27,7 +26,7 @@ class MemberController extends Controller
 
     public function store(Request $req)
     {
-        $validated = $req->validate([
+        $req->validate([
             'name' => 'required|max:100',
             'type' => 'required',
             'phone' => 'required|numeric|max_digits:13',
@@ -56,7 +55,7 @@ class MemberController extends Controller
 
     public function update(Request $req)
     {
-        $validated = $req->validate([
+        $req->validate([
             'name' => 'required|max:100',
             'type' => 'required',
             'phone' => 'required|numeric|max_digits:13',

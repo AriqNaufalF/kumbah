@@ -6,16 +6,24 @@ use Illuminate\Http\Request;
 
 use App\Models\User;
 use Inertia\Inertia;
+use DB;
 use Hash;
 
 class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = User::select('id', 'name', 'gender', 'address', 'phone', 'email')
-                        ->where('isAdmin', false)
+        $employees = User::select('id', 'name', 'address', 'phone', 'email',
+                                DB::raw(
+                                    '(CASE 
+                                        WHEN gender = 1 THEN "Lelaki"
+                                        WHEN gender = 2 THEN "Perempuan"
+                                    END) as gender'
+                                )
+                            )
                         ->orderBy('id', 'asc')
                         ->get();
+        dd($employees);
         return Inertia::render('employee/Employee', compact("employees"));
     }
 
@@ -26,7 +34,7 @@ class EmployeeController extends Controller
 
     public function store(Request $req)
     {
-        $validated = $req->validate([
+        $req->validate([
             'name' => 'required|max:100',
             'gender' => 'required',
             'address' => 'required|max:100',
@@ -56,7 +64,7 @@ class EmployeeController extends Controller
 
     public function update(Request $req)
     {
-        $validated = $req->validate([
+        $req->validate([
             'name' => 'required|max:100',
             'gender' => 'required',
             'address' => 'required|max:100',
