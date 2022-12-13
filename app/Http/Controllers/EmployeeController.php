@@ -24,9 +24,7 @@ class EmployeeController extends Controller
                 WHEN gender = 2 THEN "Female"
                 END) as gender'
             )
-        )
-            ->orderBy('id', 'asc')
-            ->get();
+        )->orderBy('id', 'asc')->paginate(15);
         return Inertia::render('employee/Employee', compact("employees"));
     }
 

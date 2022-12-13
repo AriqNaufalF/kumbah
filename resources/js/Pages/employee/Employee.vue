@@ -1,9 +1,13 @@
 <script setup>
 import ButtonLink from '@/Components/ButtonLink.vue';
+import Pagination from '@/Components/Pagination.vue';
 import TableList from '@/Components/TableList.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, usePage } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/inertia-vue3';
 
+defineProps({
+    employees: Object
+})
 const head = [
     { key: 'id', label: 'ID', sortable: true, type: 'Number' },
     { key: 'name', label: 'Name', sortable: true, type: 'String' },
@@ -13,7 +17,7 @@ const head = [
     { key: 'email', label: 'Email', sortable: false },
 ];
 
-const employeeData = usePage().props.value.employees;
+// const employeeData = usePage().props.value.employees;
 </script>
 
 <template>
@@ -26,10 +30,13 @@ const employeeData = usePage().props.value.employees;
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Employee List</h2>
             </div>
             <div class="mt-20 mx-auto max-w-7xl">
-                <TableList :head="head" :data="employeeData" url="employee.edit">
+                <TableList :head="head" :data="employees.data" url="employee.edit">
                     <div class="flex justify-end mb-5">
                         <ButtonLink :href="route('employee.create')" text="Add Employee" />
                     </div>
+                    <template #pagination>
+                        <Pagination :links="employees.links" />
+                    </template>
                 </TableList>
             </div>
         </div>

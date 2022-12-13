@@ -2,12 +2,17 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import Modal from '@/Components/Modal.vue';
+import Pagination from '@/Components/Pagination.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TableList from '@/Components/TableList.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
+
+defineProps({
+    services: Object
+});
 
 const modal = {
     show: ref(false),
@@ -21,7 +26,6 @@ const head = [
     { key: 'price', label: 'Price', sortable: true, type: 'Number' },
     { key: 'unit', label: 'Unit', sortable: false },
 ]
-const data = usePage().props.value.services;
 
 const form = useForm({
     id: '',
@@ -82,12 +86,15 @@ function closeModal() {
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Service</h2>
             </div>
             <div class="mt-20 mx-auto max-w-7xl">
-                <TableList :head="head" :data="data" action="modal" @edit="showModal">
+                <TableList :head="head" :data="services.data" action="modal" @edit="showModal">
                     <div class="flex justify-end mb-5">
                         <PrimaryButton class="px-3 2xl:text-base" @click="showModal('add')">
                             Add Service
                         </PrimaryButton>
                     </div>
+                    <template #pagination>
+                        <Pagination :links="services.links" />
+                    </template>
                 </TableList>
             </div>
         </div>

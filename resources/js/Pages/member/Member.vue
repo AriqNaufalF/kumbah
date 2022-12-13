@@ -4,12 +4,17 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import MemberCard from '@/Components/MemberCard.vue';
 import Modal from '@/Components/Modal.vue';
+import Pagination from '@/Components/Pagination.vue';
 import TableList from '@/Components/TableList.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { decimalToPercent, toRupiah } from "@/functions/numberFormat.js";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
+
+defineProps({
+    members: Object
+});
 
 const showModal = ref(false);
 const form = useForm({
@@ -28,7 +33,6 @@ const head = [
     { key: 'expired_date', label: 'Expired Date', sortable: true, type: 'String' },
 ];
 
-const memberData = usePage().props.value.members;
 const memberTypes = usePage().props.value.memberTypes;
 
 function editType(item) {
@@ -84,10 +88,13 @@ function closeForm() {
             </div>
             <!-- Member list -->
             <div class="mt-10 mx-auto max-w-7xl">
-                <TableList :head="head" :data="memberData" url="member.edit">
+                <TableList :head="head" :data="members.data" url="member.edit">
                     <div class="flex justify-end mb-5">
                         <ButtonLink :href="route('member.create')" text="Add Member" />
                     </div>
+                    <template #pagination>
+                        <Pagination :links="members.links" />
+                    </template>
                 </TableList>
             </div>
         </div>

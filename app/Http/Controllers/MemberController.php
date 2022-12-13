@@ -20,10 +20,8 @@ class MemberController extends Controller
             'members.email',
             'members.join_date',
             'members.expired_date'
-        )
-            ->join('member_types', 'members.member_type_id', '=', 'member_types.id')
-            ->orderBy('id', 'asc')
-            ->get();
+        )->join('member_types', 'members.member_type_id', '=', 'member_types.id')
+            ->orderBy('id', 'asc')->paginate(15);
         $memberTypes = MemberType::all();
         return Inertia::render('member/Member', compact("members", 'memberTypes'));
     }

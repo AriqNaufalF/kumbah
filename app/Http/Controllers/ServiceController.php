@@ -12,7 +12,7 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::all();
+        $services = Service::paginate(15);
         return Inertia::render('service/Service', compact('services'));
     }
 

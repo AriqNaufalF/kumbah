@@ -119,5 +119,6 @@ function setSort(key, type) {
                 </tbody>
             </table>
         </div>
+        <slot name="pagination" />
     </div>
 </template>
