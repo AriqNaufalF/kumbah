@@ -6,26 +6,79 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { useForm, Head } from '@inertiajs/inertia-vue3';
+import { useForm, Head, usePage } from '@inertiajs/inertia-vue3';
+import { watch, ref, computed } from "vue";
+
+const members = usePage().props.value.members;
+const services = usePage().props.value.services;
 
 const form = useForm({
     memberId: '',
     name: '',
     discount: 0,
     service: '',
-    serviceQty: 0,
+    serviceQty: 1,
     subTotal: 0,
     totalPrice: 0,
     clothes: [{
         cloth: '',
-        quantity: 0,
+        quantity: 1,
     }],
+});
+
+function filterMember() {
+    return members.filter((m) => m.id == form.memberId)[0];
+}
+
+function filterService() {
+    return services.filter((s) => s.id == form.service)[0];
+}
+
+const memberName = computed({
+    get() {
+        form.name = form.memberId !== ''
+            ? filterMember().name
+            : form.name;
+        return form.name;
+    },
+    set(value) {
+        form.name = value;
+    }
+})
+
+const serviceDiscount = computed({
+    get() {
+        form.discount = form.memberId !== ''
+            ? filterMember().discount
+            : 0;
+        return form.discount;
+    },
+    set(value) {
+        form.discount = value;
+    }
+});
+
+const subTotalOrder = computed(() => {
+    form.subTotal = form.service !== ''
+        ? filterService().price * form.serviceQty
+        : 0;
+    return form.subTotal;
+});
+
+const orderTotalPrice = computed(() => {
+    if (form.discount !== '' && form.subTotal !== '') {
+        form.totalPrice = form.subTotal - (form.subTotal * form.discount);
+    } else if (form.subTotal !== '') {
+        form.totalPrice = form.subTotal;
+    }
+
+    return form.totalPrice;
 });
 
 function addCloth() {
     form.clothes.push({
         cloth: '',
-        quantity: 0,
+        quantity: 1,
     })
 }
 
@@ -34,8 +87,11 @@ function removeCloth(index) {
 }
 
 function submit() {
-    form.post(route('test'), {
-        onSuccess: () => form.reset()
+    form.post(route('order.create'), {
+        onSuccess() {
+            form.reset()
+        },
+        preserveState: false
     });
 }
 
@@ -57,14 +113,18 @@ function submit() {
                             <div>
                                 <!-- Input member id -->
                                 <div>
-                                    <InputLabel for="memberId" value="Member ID" class="mb-2" />
-                                    <TextInput v-model="form.memberId" id="memberId" type="text" class="w-full" />
+                                    <InputLabel for="memberId" value="Member ID (optional)" class="mb-2" />
+                                    <SelectInput v-model="form.memberId" id="memberId" class="w-full">
+                                        <option value="">Select member ID</option>
+                                        <option v-for="({ id }) in members" :key="id" :value="id">{{ id }}</option>
+                                    </SelectInput>
                                     <InputError :message="form.errors.memberId" class="mt-1.5" />
                                 </div>
                                 <!-- Input name -->
                                 <div class="mt-3">
                                     <InputLabel for="name" value="Name" class="mb-2" />
-                                    <TextInput v-model="form.name" id="name" type="text" class="w-full" required />
+                                    <TextInput v-model="memberName" id="name" type="text" class="w-full" required
+                                        :readonly="form.memberId !== ''" />
                                     <InputError :message="form.errors.name" class="mt-1.5" />
                                 </div>
                                 <!-- Input service -->
@@ -74,14 +134,14 @@ function submit() {
                                             <InputLabel for="service" value="Service" class="mb-2" />
                                             <SelectInput v-model="form.service" id="service" class="w-full" required>
                                                 <option value="" selected>Select service</option>
-                                                <option value="1">Cuci normal</option>
-                                                <option value="0">Cuci cepat</option>
+                                                <option v-for="({ id, name }) in services" :value="id">{{ name }}
+                                                </option>
                                             </SelectInput>
                                         </div>
                                         <div class="ml-auto">
                                             <InputLabel for="serviceQty" value="Quantity" class="mb-2" />
                                             <TextInput v-model="form.serviceQty" id="serviceQty" type="number"
-                                                class="max-w-[120px] w-full" required />
+                                                class="max-w-[120px] w-full" min="1" required />
                                         </div>
                                     </div>
                                     <InputError :message="form.errors.service" class="mt-1.5" />
@@ -92,22 +152,22 @@ function submit() {
                                 <!-- Input discount -->
                                 <div>
                                     <InputLabel for="discount" value="Discount" class="mb-2" />
-                                    <TextInput v-model="form.discount" id="discount" type="text" class="w-full"
+                                    <TextInput v-model="serviceDiscount" id="discount" type="text" class="w-full"
                                         required />
                                     <InputError :message="form.errors.discount" class="mt-1.5" />
                                 </div>
                                 <!-- Input sub total -->
                                 <div class="mt-3">
                                     <InputLabel for="subTotal" value="Sub Total" class="mb-2" />
-                                    <TextInput v-model="form.subTotal" id="subTotal" type="text" class="w-full"
-                                        required />
+                                    <TextInput v-model="subTotalOrder" id="subTotal" type="text" class="w-full" required
+                                        readonly />
                                     <InputError :message="form.errors.subTotal" class="mt-1.5" />
                                 </div>
                                 <!-- Input total price -->
                                 <div class="mt-3">
                                     <InputLabel for="totalPrice" value="Total Price" class="mb-2" />
-                                    <TextInput v-model="form.totalPrice" id="totalPrice" type="text" class="w-full"
-                                        required />
+                                    <TextInput v-model="orderTotalPrice" id="totalPrice" type="text" class="w-full"
+                                        required readonly />
                                     <InputError :message="form.errors.totalPrice" class="mt-1.5" />
                                 </div>
                             </div>
@@ -116,21 +176,22 @@ function submit() {
                             <h3 class="font-semibold text-lg">Order Detail</h3>
                             <SecondaryButton type="button" class="px-3 ml-auto" @click="addCloth">Add Cloth
                             </SecondaryButton>
-                            <div class="grid grid-cols-2 gap-6 mb-3" v-for="(item, index) in form.clothes">
+                            <div class="grid grid-cols-2 gap-6 mb-3" v-for="(item, index) in form.clothes" :key="index">
                                 <div>
                                     <InputLabel :for="`cloth[${index}]`" value="Cloth type" class="mb-2" />
                                     <TextInput v-model="item.cloth" :id="`cloth[${index}]`" type="text"
                                         class="w-full" />
-                                    <InputError :message="form.errors[`clotes.${index}.cloth`]" class="mt-1.5" />
+                                    <InputError :message="form.errors[`clothes.${index}.cloth`]" class="mt-1.5" />
                                 </div>
-                                <div class="flex items-end">
+                                <div class="flex items-start">
                                     <div>
                                         <InputLabel :for="`quantity[${index}]`" value="Quantity" class="mb-2" />
                                         <TextInput v-model="item.quantity" :id="`quantity[${index}]`" type="number"
-                                            class="max-w-[120px] w-full" />
-                                        <InputError :message="form.errors[`clotes.${index}.quantity`]" class="mt-1.5" />
+                                            min="1" class="max-w-[120px] w-full" />
+                                        <InputError :message="form.errors[`clothes.${index}.quantity`]"
+                                            class="mt-1.5" />
                                     </div>
-                                    <button type="button" class="mb-2.5 px-3 hover:scale-105"
+                                    <button type="button" class="mb-2.5 px-3 self-end hover:scale-105"
                                         @click="removeCloth(index)" v-show="form.clothes.length > 1">
                                         <span class="sr-only">Delete cloth list</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"

@@ -74,7 +74,7 @@ const monthlyOrder = {
                         </div>
                         <ButtonLink
                             class="flex justify-center items-center mt-4 w-full h-full max-h-36 font-medium text-lg bg-primary-600 text-white rounded-md transition-all hover:bg-primary-800 xl:mt-auto"
-                            :href="route('addOrder')" :custom="true" text="Add Order" />
+                            :href="route('order')" :custom="true" text="Add Order" />
                     </div>
                 </section>
                 <!-- monthly chart -->

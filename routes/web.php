@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,9 +28,13 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::prefix('dashboard')->group(function () {
+        Route::controller(DashboardController::class)->group(function () {
+            Route::get('', 'index')->name('dashboard');
+            Route::get('add-order', 'addOrder')->name('order');
+            Route::post('add-order/create', 'addOrderStore')->name('order.create');
+        });
+    });
 
     Route::prefix("employee")->group(function () {
         Route::controller(EmployeeController::class)->group(function () {
@@ -59,9 +64,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
-    Route::get('/add-order', function () {
-        return Inertia::render('AddOrder');
-    })->name('addOrder');
+    // Route::get('/add-order', function () {
+    //     return Inertia::render('AddOrder');
+    // })->name('addOrder');
 
     // Route::get('/employee/add', function () {
     //     return Inertia::render('employee/AddEmployee');
