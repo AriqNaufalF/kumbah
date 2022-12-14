@@ -6,8 +6,8 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { useForm, Head, usePage } from '@inertiajs/inertia-vue3';
-import { watch, ref, computed } from "vue";
+import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
+import { computed, ref } from "vue";
 
 const members = usePage().props.value.members;
 const services = usePage().props.value.services;
@@ -34,11 +34,16 @@ function filterService() {
     return services.filter((s) => s.id == form.service)[0];
 }
 
+const isMemberName = ref(false);
 const memberName = computed({
     get() {
-        form.name = form.memberId !== ''
-            ? filterMember().name
-            : form.name;
+        if (form.memberId !== '') {
+            form.name = filterMember().name;
+            isMemberName.value = true;
+        } else if (isMemberName.value) {
+            isMemberName.value = false;
+            form.name = '';
+        }
         return form.name;
     },
     set(value) {
@@ -46,15 +51,26 @@ const memberName = computed({
     }
 })
 
+const isDiscountMember = ref(false);
+const additionalMemberDiscount = ref(false);
 const serviceDiscount = computed({
     get() {
-        form.discount = form.memberId !== ''
-            ? filterMember().discount
-            : 0;
+        if (form.memberId !== '') {
+            const filterdDiscount = filterMember().discount;
+            if (!additionalMemberDiscount.value) {
+                form.discount = filterdDiscount;
+            }
+            isDiscountMember.value = true;
+        } else if (isDiscountMember.value) {
+            additionalMemberDiscount.value = false;
+            isDiscountMember.value = false;
+            form.discount = 0
+        }
         return form.discount;
     },
     set(value) {
         form.discount = value;
+        additionalMemberDiscount.value = true;
     }
 });
 
