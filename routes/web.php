@@ -31,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::controller(DashboardController::class)->group(function () {
             Route::get('', 'index')->name('dashboard');
-            Route::get('add-order', 'addOrder')->name('order');
+            Route::get('add-order', 'addOrder')->name('dashboard.order');
             Route::post('add-order/create', 'addOrderStore')->name('order.create');
         });
     });
