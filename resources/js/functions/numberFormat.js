@@ -14,4 +14,12 @@ function toRupiah(num) {
     }).format(num);
 }
 
-export { decimalToPercent, toRupiah };
+function percentToDecimal(stringNum) {
+    const intNum = parseInt(stringNum.slice(0, -1));
+    if (intNum === NaN) {
+        return NaN;
+    }
+    return intNum / 100;
+}
+
+export { decimalToPercent, toRupiah, percentToDecimal };

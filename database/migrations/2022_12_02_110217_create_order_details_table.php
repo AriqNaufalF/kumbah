@@ -21,7 +21,7 @@ return new class extends Migration
             $table->json('clothes');
             $table->integer('service_quantity');
             $table->bigInteger('subtotal');
-            $table->float('discount', 4, 3);
+            $table->bigInteger('discount');
             $table->bigInteger('total');
             $table->timestamps();
         });

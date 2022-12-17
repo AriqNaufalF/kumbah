@@ -31,7 +31,7 @@ class DashboardController extends Controller
         $validated = $req->validate([
             'memberId' => 'numeric|nullable',
             'name' => 'required|string|max:255',
-            'discount' => 'numeric|between:0,1',
+            'discount' => 'numeric',
             'service' => 'required|numeric',
             'serviceQty' => 'required|numeric|min:1',
             'subTotal' => 'required|numeric|min:1',

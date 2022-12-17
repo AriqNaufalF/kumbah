@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import TextInput from '@/Components/TextInput.vue';
+import { percentToDecimal } from "@/functions/numberFormat.js";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { computed, ref } from "vue";
@@ -25,6 +26,9 @@ const form = useForm({
         quantity: 1,
     }],
 });
+const isMemberName = ref(false);
+const additionalDiscount = ref(0);
+const memberDiscount = ref(0);
 
 function filterMember() {
     return members.filter((m) => m.id == form.memberId)[0];
@@ -34,15 +38,17 @@ function filterService() {
     return services.filter((s) => s.id == form.service)[0];
 }
 
-const isMemberName = ref(false);
 const memberName = computed({
     get() {
         if (form.memberId !== '') {
-            form.name = filterMember().name;
+            const { name, discount } = filterMember();
+            form.name = name;
+            memberDiscount.value = discount;
             isMemberName.value = true;
         } else if (isMemberName.value) {
             isMemberName.value = false;
             form.name = '';
+            memberDiscount.value = 0;
         }
         return form.name;
     },
@@ -50,29 +56,6 @@ const memberName = computed({
         form.name = value;
     }
 })
-
-const isDiscountMember = ref(false);
-const additionalMemberDiscount = ref(false);
-const serviceDiscount = computed({
-    get() {
-        if (form.memberId !== '') {
-            const filterdDiscount = filterMember().discount;
-            if (!additionalMemberDiscount.value) {
-                form.discount = filterdDiscount;
-            }
-            isDiscountMember.value = true;
-        } else if (isDiscountMember.value) {
-            additionalMemberDiscount.value = false;
-            isDiscountMember.value = false;
-            form.discount = 0
-        }
-        return form.discount;
-    },
-    set(value) {
-        form.discount = value;
-        additionalMemberDiscount.value = true;
-    }
-});
 
 const subTotalOrder = computed(() => {
     form.subTotal = form.service !== ''
@@ -82,10 +65,31 @@ const subTotalOrder = computed(() => {
 });
 
 const orderTotalPrice = computed(() => {
-    if (form.discount !== '' && form.subTotal !== '') {
-        form.totalPrice = form.subTotal - (form.subTotal * form.discount);
+    if (!!additionalDiscount.value && form.subTotal !== '') {
+        if (additionalDiscount.value.includes('%')) {
+            if (!!memberDiscount.value) {
+                form.discount = form.subTotal * (percentToDecimal(additionalDiscount.value) + memberDiscount.value).toFixed(2);
+            } else {
+                form.discount = form.subTotal * percentToDecimal(additionalDiscount.value);
+            }
+        } else {
+            if (!!memberDiscount.value) {
+                form.discount = form.subTotal * memberDiscount.value;
+                form.discount += parseInt(additionalDiscount.value);
+            } else {
+                form.discount = additionalDiscount.value;
+            }
+        }
+        form.totalPrice = form.subTotal - form.discount;
+    } else if (!!memberDiscount.value) {
+        form.discount = form.subTotal * memberDiscount.value;
+        form.totalPrice = form.subTotal - form.discount;
     } else if (form.subTotal !== '') {
         form.totalPrice = form.subTotal;
+    }
+
+    if (form.totalPrice < 0) {
+        form.totalPrice = 0;
     }
 
     return form.totalPrice;
@@ -106,8 +110,8 @@ function submit() {
     form.post(route('order.create'), {
         onSuccess() {
             form.reset()
+            additionalDiscount.value = 0;
         },
-        preserveState: false
     });
 }
 
@@ -121,7 +125,7 @@ function submit() {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Add Order</h2>
             </div>
-            <div class="mt-20 mx-auto max-w-7xl">
+            <div class="mt-10 mx-auto max-w-7xl">
                 <div class="p-6 bg-white shadow-lg rounded-lg">
                     <form @submit.prevent="submit">
                         <h3 class="font-semibold text-lg">Customer Info</h3>
@@ -165,25 +169,25 @@ function submit() {
                                 </div>
                             </div>
                             <div class="h-full flex flex-col">
-                                <!-- Input discount -->
-                                <div>
-                                    <InputLabel for="discount" value="Discount" class="mb-2" />
-                                    <TextInput v-model="serviceDiscount" id="discount" type="text" class="w-full"
-                                        required />
-                                    <InputError :message="form.errors.discount" class="mt-1.5" />
-                                </div>
                                 <!-- Input sub total -->
-                                <div class="mt-3">
+                                <div>
                                     <InputLabel for="subTotal" value="Sub Total" class="mb-2" />
-                                    <TextInput v-model="subTotalOrder" id="subTotal" type="text" class="w-full" required
-                                        readonly />
+                                    <TextInput v-model="subTotalOrder" id="subTotal" type="text"
+                                        class="w-full text-right" required readonly />
                                     <InputError :message="form.errors.subTotal" class="mt-1.5" />
+                                </div>
+                                <!-- Input discount -->
+                                <div class="mt-3">
+                                    <InputLabel for="discount" value="Additional Discount" class="mb-2" />
+                                    <TextInput v-model="additionalDiscount" id="discount" type="text"
+                                        class="w-full text-right" required />
+                                    <InputError :message="form.errors.discount" class="mt-1.5" />
                                 </div>
                                 <!-- Input total price -->
                                 <div class="mt-3">
                                     <InputLabel for="totalPrice" value="Total Price" class="mb-2" />
-                                    <TextInput v-model="orderTotalPrice" id="totalPrice" type="text" class="w-full"
-                                        required readonly />
+                                    <TextInput v-model="orderTotalPrice" id="totalPrice" type="text"
+                                        class="w-full text-right" required readonly />
                                     <InputError :message="form.errors.totalPrice" class="mt-1.5" />
                                 </div>
                             </div>
