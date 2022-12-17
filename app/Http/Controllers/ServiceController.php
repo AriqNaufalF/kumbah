@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Service;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ServiceController extends Controller
@@ -18,11 +19,15 @@ class ServiceController extends Controller
 
     public function store(Request $req)
     {
-        $req->validate([
+        $validated = Validator::make($req->all(), [
             'name' => 'required|string|max:100',
             'price' => 'required|numeric',
             'unit' => 'required|string',
         ]);
+
+        if ($validated->fails()) {
+            return Redirect::back()->with('error', $validated->messages());
+        }
 
         $service = new Service();
         $service->name = $req->name;
@@ -30,16 +35,20 @@ class ServiceController extends Controller
         $service->unit = $req->unit;
         $service->save();
 
-        return redirect('service')->with('success', 'Service added.');
+        return Redirect::back()->with('success', 'Service added.');
     }
 
     public function update(Request $req)
     {
-        $req->validate([
+        $validated = Validator::make($req->all(), [
             'name' => 'required|string|max:100',
             'price' => 'required|numeric',
             'unit' => 'required|string',
         ]);
+
+        if ($validated->fails()) {
+            return Redirect::back()->with('error', 'Input error');
+        }
 
         $service = Service::findOrFail($req->id);
         $service->name = $req->name;

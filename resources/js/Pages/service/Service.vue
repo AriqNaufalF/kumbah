@@ -4,6 +4,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import TableList from '@/Components/TableList.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -105,19 +106,24 @@ function closeModal() {
                 <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">{{ modal.title.value }} Service</h3>
                 <div>
                     <InputLabel for="name" value="Name" class="mb-2" />
-                    <TextInput v-model="form.name" id="name" type="text" class="w-full" required />
+                    <TextInput v-model="form.name" id="name" type="text" class="w-full" />
                     <InputError :message="form.errors.name" class="mt-1.5" />
                 </div>
                 <!-- Input price -->
                 <div class="mt-3">
                     <InputLabel for="price" value="Price" class="mb-2" />
-                    <TextInput v-model="form.price" id="price" type="number" class="w-full" required />
+                    <TextInput v-model="form.price" id="price" type="number" class="w-full" />
                     <InputError :message="form.errors.price" class="mt-1.5" />
                 </div>
                 <!-- Input unit -->
                 <div class="mt-3">
                     <InputLabel for="unit" value="Unit" class="mb-2" />
-                    <TextInput v-model="form.unit" id="unit" type="text" class="w-full" required />
+                    <SelectInput v-model="form.unit" id="unit" class="w-full">
+                        <option value="" :selected="form.unit === ''">Select the service unit</option>
+                        <option value="Kg" :selected="form.unit === 'Kg'">Kg</option>
+                        <option value="Pcs" :selected="form.unit === 'Pcs'">Pcs</option>
+                    </SelectInput>
+                    <!-- <TextInput v-model="form.unit" id="unit" type="text" class="w-full" required /> -->
                     <InputError :message="form.errors.unit" class="mt-1.5" />
                 </div>
                 <template #yesButton>{{ modal.btnText.value }}</template>

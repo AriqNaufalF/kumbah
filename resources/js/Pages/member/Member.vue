@@ -79,7 +79,7 @@ function closeForm() {
                                 </p>
                             </div>
                             <div class="col-start-2 row-start-2 col-span-2 self-end justify-self-end">
-                                <p class="font-medium text-sm leading-4 text-white">Price</p>
+                                <p class="font-medium text-sm leading-4 text-white">Price /Month</p>
                                 <p class="font-semibold text-lg text-white">{{ toRupiah(item.price) }}</p>
                             </div>
                         </MemberCard>

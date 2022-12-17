@@ -1,5 +1,6 @@
 <script setup>
-import FlashMessage from '@/Components/FlashMessage.vue';
+import FlashMessageSuccess from '@/Components/FlashMessageSuccess.vue';
+import FlashMessageError from '@/Components/FlashMessageError.vue';
 import NavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
 </script>
@@ -99,7 +100,8 @@ import { Link } from '@inertiajs/inertia-vue3';
                 </div>
             </div>
         </nav>
-        <FlashMessage />
+        <FlashMessageSuccess />
+        <FlashMessageError />
         <!-- Page Content -->
         <main class="ml-auto w-[calc(100%-theme(width.56))]">
             <slot />

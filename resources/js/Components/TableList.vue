@@ -67,7 +67,7 @@ function setSort(key, type) {
         <slot />
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="font-medium uppercase border-b-[3px] border-primary-800">
+                <thead class="text-left font-medium uppercase border-b-[3px] border-primary-800">
                     <tr>
                         <template v-for="({ key, label, sortable, type }) in head">
                             <th v-if="sortable" @click="setSort(key, type)"
@@ -86,7 +86,7 @@ function setSort(key, type) {
                         </template>
                     </tr>
                 </thead>
-                <tbody class="text-center">
+                <tbody>
                     <tr v-for="(data, index) in sortedData" :key="index" class="group hover:bg-slate-50">
                         <td v-for="({ key }) in head" class="py-3 px-3.5">{{ data[key] }}</td>
                         <td v-if="action === 'modal'" class="py-3 px-3.5">
