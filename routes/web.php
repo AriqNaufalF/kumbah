@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ServiceController;
 
@@ -64,6 +64,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
+    Route::prefix('history')->group(function () {
+        Route::controller(HistoryController::class)->group(function () {
+            Route::get('', 'index')->name('history');
+            Route::get('order-info/{id}', 'show')->name('history.info');
+        });
+    });
+
     // Route::get('/add-order', function () {
     //     return Inertia::render('AddOrder');
     // })->name('addOrder');
@@ -93,9 +100,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //     return Inertia::render('service/Service');
     // })->name('service');
 
-    Route::get('/history', function () {
-        return Inertia::render('history/History');
-    })->name('history');
+    // Route::get('/history', function () {
+    //     return Inertia::render('history/History');
+    // })->name('history');
 
     Route::delete('/delete', function (Request $request) {
         return redirect('/employee');

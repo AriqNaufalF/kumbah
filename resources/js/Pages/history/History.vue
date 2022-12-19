@@ -29,7 +29,7 @@ const historyData = [
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">History</h2>
             </div>
             <div class="mt-20 mx-auto max-w-7xl">
-                <TableList :head="head" :data="historyData" action="details" url="dashboard" />
+                <TableList :head="head" :data="historyData" action="details" url="history.info" />
             </div>
         </div>
     </AuthenticatedLayout>
