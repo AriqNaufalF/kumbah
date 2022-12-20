@@ -35,15 +35,17 @@ const head = [
 
 const memberTypes = usePage().props.value.memberTypes;
 
+const id = ref(0);
 function editType(item) {
     showModal.value = true;
+    id.value = item.id;
     form.name = item.name;
     form.price = item.price;
     form.discount = item.discount;
 }
 
 function saveFormType() {
-    form.post(route('member.updateType'), {
+    form.post(route('member.updateType', id.value), {
         onSuccess() {
             closeForm();
         },
