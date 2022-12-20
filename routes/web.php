@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MemberTypeController;
 use App\Http\Controllers\ServiceController;
 
 /*
@@ -53,6 +54,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('store', 'store')->name('member.store');
             Route::get('edit/{id}', 'edit')->name('member.edit');
             Route::post('update/{id}', 'update')->name('member.update');
+        });
+
+        Route::controller(MemberTypeController::class)->group(function () {
+            Route::post('type/update/{id}', 'update')->name('member.updateType');
         });
     });
 

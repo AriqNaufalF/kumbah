@@ -43,7 +43,7 @@ function editType(item) {
 }
 
 function saveFormType() {
-    form.post(route('test'), {
+    form.post(route('member.updateType'), {
         onSuccess() {
             closeForm();
         },

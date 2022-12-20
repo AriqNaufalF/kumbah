@@ -14,6 +14,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $todayOrder = OrderDetail::count('id');
+        $todayIncome = OrderDetail::sum('total');
+        
         return Inertia::render('Dashboard');
     }
 
