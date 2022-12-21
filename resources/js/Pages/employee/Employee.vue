@@ -16,8 +16,6 @@ const head = [
     { key: 'phone', label: 'Phone Number', sortable: false },
     { key: 'email', label: 'Email', sortable: false },
 ];
-
-// const employeeData = usePage().props.value.employees;
 </script>
 
 <template>
