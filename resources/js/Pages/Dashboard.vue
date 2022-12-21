@@ -59,9 +59,9 @@ const monthlyOrder = {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Welcome to Kumbah</h2>
             </div>
-            <div class="flex flex-col mt-20 gap-12 xl:flex-row">
+            <div class="flex flex-col mt-10 gap-12 xl:flex-row">
                 <!-- Today info -->
-                <section class="bg-white w-full max-w-md max-h-[432px]  xl:max-w-xs shadow-md rounded-lg">
+                <section class="self-start bg-white w-full max-w-md xl:max-w-xs shadow-md rounded-lg">
                     <div class="flex flex-col h-full p-6">
                         <h3 class="font-semibold text-lg text-center uppercase">Today</h3>
                         <div class="mt-4">
@@ -72,16 +72,14 @@ const monthlyOrder = {
                             <p class="font-medium text-sm">Total Income</p>
                             <p class="font-semibold text-2xl">Rp 29.000</p>
                         </div>
-                        <ButtonLink
-                            class="flex justify-center items-center mt-4 w-full h-full max-h-36 font-medium text-lg bg-primary-600 text-white rounded-md transition-all hover:bg-primary-800 xl:mt-auto"
-                            :href="route('dashboard.order')" :custom="true" text="Add Order" />
+                        <ButtonLink class="mt-4 text-center" :href="route('dashboard.order')" text="Add Order" />
                     </div>
                 </section>
                 <!-- monthly chart -->
                 <section class="bg-white w-full shadow-md rounded-lg">
                     <div class="p-6">
                         <h3 class="mb-4 font-semibold text-lg text-center uppercase">Order Statistic For The Month</h3>
-                        <Line :data="monthlyOrder" :options="chartOptions" />
+                        <Line class="max-h-96" :data="monthlyOrder" :options="chartOptions" />
                     </div>
                 </section>
             </div>
