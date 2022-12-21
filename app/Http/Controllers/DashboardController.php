@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $todayOrder = OrderDetail::whereDate('created_at', Carbon::today())->count('id');
         $todayIncome = OrderDetail::whereDate('created_at', Carbon::today())->sum('total');
         $yearlyOrders = Order::whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
-        
+
         return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome'));
     }
 
@@ -26,7 +26,7 @@ class DashboardController extends Controller
         $members = Member::select('members.id', 'members.name', 'member_types.discount')
             ->join('member_types', 'members.member_type_id', '=', 'member_types.id')
             ->orderBy('id', 'asc')->get();
-        $services = Service::all(['id', 'name', 'price']);
+        $services = Service::all(['id', 'name', 'price', 'unit']);
         return Inertia::render('AddOrder', compact('members', 'services'));
     }
 

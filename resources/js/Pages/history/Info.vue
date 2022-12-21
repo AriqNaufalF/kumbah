@@ -58,7 +58,7 @@ const orderDetail = usePage().props.value.orderDetail;
                                     </div>
                                     <div class="ml-auto">
                                         <InputLabel for="serviceQty" value="Quantity" class="mb-2" />
-                                        <TextInput id="serviceQty" :value="orderDetail.service_quantity" type="number"
+                                        <TextInput id="serviceQty" :value="orderDetail.service_quantity" type="text"
                                             class="max-w-[120px] w-full" min="1" readonly />
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@ const orderDetail = usePage().props.value.orderDetail;
                             </div>
                             <div>
                                 <InputLabel :for="`quantity[${index}]`" value="Quantity" class="mb-2" />
-                                <TextInput v-model="item.quantity" :id="`quantity[${index}]`" type="number" min="1"
+                                <TextInput v-model="item.quantity" :id="`quantity[${index}]`" type="text" min="1"
                                     class="max-w-[120px] w-full" readonly />
                             </div>
                         </div>

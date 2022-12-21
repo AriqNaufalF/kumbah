@@ -154,7 +154,8 @@ function submit() {
                                             <InputLabel for="service" value="Service" class="mb-2" />
                                             <SelectInput v-model="form.service" id="service" class="w-full" required>
                                                 <option value="" selected>Select service</option>
-                                                <option v-for="({ id, name }) in services" :value="id">{{ name }}
+                                                <option v-for="({ id, name, unit }) in services" :value="id">
+                                                    {{ `${name} (${unit})` }}
                                                 </option>
                                             </SelectInput>
                                         </div>

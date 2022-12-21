@@ -24,7 +24,7 @@ class HistoryController extends Controller
                 '
             ),
             'services.name as service',
-            'order_details.service_quantity as quantity',
+            DB::raw('CONCAT(order_details.service_quantity, " ", services.unit) as quantity'),
             'order_details.total as total',
             'orders.order_date as order_date',
         )
@@ -47,7 +47,7 @@ class HistoryController extends Controller
             'members.id as member_id',
             'order_details.name as customer_name',
             'services.name as service_name',
-            'order_details.service_quantity as service_quantity',
+            DB::raw('CONCAT(order_details.service_quantity, " ", services.unit ) as service_quantity'),
             'order_details.subtotal as subtotal',
             'order_details.discount as discount',
             'order_details.total as total',

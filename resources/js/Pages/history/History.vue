@@ -13,7 +13,7 @@ const head = [
     { key: 'name', label: 'Customer Name', sortable: true, type: 'String' },
     { key: 'member', label: 'Member Type', sortable: true, type: 'String' },
     { key: 'service', label: 'Service', sortable: true, type: 'String' },
-    { key: 'quantity', label: 'Quantity', sortable: true, type: 'Number' },
+    { key: 'quantity', label: 'Quantity', sortable: true, type: 'String' },
     { key: 'total', label: 'Total Price', sortable: true, type: 'Number' },
 ];
 </script>
