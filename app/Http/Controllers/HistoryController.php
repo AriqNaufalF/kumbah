@@ -45,7 +45,7 @@ class HistoryController extends Controller
             'orders.order_date as order_date',
             'orders.finished_date as finished_date',
             'members.id as member_id',
-            'order_details.name as member_name',
+            'order_details.name as customer_name',
             'services.name as service_name',
             'order_details.service_quantity as service_quantity',
             'order_details.subtotal as subtotal',
@@ -59,8 +59,6 @@ class HistoryController extends Controller
             ->where('orders.id', $id)
             ->first();
 
-        // dd($orderDetail);
-
-        return Inertia::render('history/Info');
+        return Inertia::render('history/Info', compact('orderDetail'));
     }
 }
