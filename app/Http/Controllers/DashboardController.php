@@ -14,10 +14,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $todayOrder = OrderDetail::count('id');
-        $todayIncome = OrderDetail::sum('total');
+        $todayOrder = OrderDetail::whereDate('created_at', Carbon::today())->count('id');
+        $todayIncome = OrderDetail::whereDate('created_at', Carbon::today())->sum('total');
+        $yearlyOrders = Order::whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
         
-        return Inertia::render('Dashboard');
+        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome'));
     }
 
     public function addOrder()

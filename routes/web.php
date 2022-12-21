@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberTypeController;
+use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ServiceController;
 
 /*
@@ -73,6 +74,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::controller(HistoryController::class)->group(function () {
             Route::get('', 'index')->name('history');
             Route::get('order-info/{id}', 'show')->name('history.info');
+        });
+    });
+
+    Route::prefix('print')->group(function () {
+        Route::controller(PrintController::class)->group(function () {
+            Route::get('invoice/{id}', 'printInvoice')->name('print.invoice');
         });
     });
 
