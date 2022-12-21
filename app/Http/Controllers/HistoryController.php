@@ -13,7 +13,7 @@ class HistoryController extends Controller
     public function index()
     {
         $orders = OrderDetail::select(
-            'order_details.id as id',
+            'orders.id as id',
             'order_details.name as name',
             DB::raw(
                 '
@@ -40,8 +40,26 @@ class HistoryController extends Controller
 
     public function show($id)
     {
-        $order = OrderDetail::findOrFail($id);
-        $member = Member::select('id')->where('name', $order->name)->get();
+        $orderDetail = OrderDetail::select(
+            'orders.id as order_id',
+            'orders.order_date as order_date',
+            'orders.finished_date as finished_date',
+            'members.id as member_id',
+            'order_details.name as member_name',
+            'services.name as service_name',
+            'order_details.service_quantity as service_quantity',
+            'order_details.subtotal as subtotal',
+            'order_details.discount as discount',
+            'order_details.total as total',
+            'order_details.clothes as clothes'
+        )
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->leftjoin('members', 'orders.member_id', '=', 'members.id')
+            ->join('services', 'order_details.service_id', '=', 'services.id')
+            ->where('orders.id', $id)
+            ->first();
+
+        // dd($orderDetail);
 
         return Inertia::render('history/Info');
     }
