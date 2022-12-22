@@ -6,6 +6,7 @@ use App\Models\Member;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Service;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,8 @@ class DashboardController extends Controller
     {
         $todayOrder = OrderDetail::whereDate('created_at', Carbon::today())->count('id');
         $todayIncome = OrderDetail::whereDate('created_at', Carbon::today())->sum('total');
+        $totalEmployee = User::count('id');
+        $totalMember = Member::whereDate('expired_date', '>=', Carbon::now())->count('id');
         $yearlyOrders = Order::whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
 
         $ongoingOrders = OrderDetail::select(
@@ -35,13 +38,14 @@ class DashboardController extends Controller
             ->orderBy('orders.created_at', 'asc')
             ->paginate(5);
 
-        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome', 'ongoingOrders'));
+        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome', 'ongoingOrders', 'totalEmployee', 'totalMember'));
     }
 
     public function addOrder()
     {
         $members = Member::select('members.id', 'members.name', 'member_types.discount')
             ->join('member_types', 'members.member_type_id', '=', 'member_types.id')
+            ->whereDate('expired_date', '>=', Carbon::now())
             ->orderBy('id', 'asc')->get();
         $services = Service::all(['id', 'name', 'price', 'unit']);
         return Inertia::render('AddOrder', compact('members', 'services'));

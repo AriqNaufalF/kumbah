@@ -4,7 +4,8 @@ import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, useForm } from '@inertiajs/inertia-vue3';
+import { toRupiah } from "@/functions/numberFormat.js";
+import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { CategoryScale, Chart as ChartJs, LinearScale, LineElement, PointElement, Tooltip } from "chart.js";
 import { ref } from 'vue';
 import { Line } from "vue-chartjs";
@@ -17,6 +18,11 @@ defineProps({
         default: null
     }
 })
+
+const todayOrder = usePage().props.value.todayOrder;
+const todayIncome = toRupiah(usePage().props.value.todayIncome);
+const totalEmployee = usePage().props.value.totalEmployee;
+const totalMember = usePage().props.value.totalMember;
 
 const tableHeader = [
     { key: 'id', label: 'ID' },
@@ -88,7 +94,7 @@ function finishOrder() {
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Welcome to Kumbah</h2>
             </div>
             <div class="flex flex-col-reverse mt-10 gap-8 xl:flex-row">
-                <!-- Yearly chart -->
+                <!-- Unfinished order -->
                 <section class="bg-white w-full shadow-md rounded-lg">
                     <div class="flex flex-col h-full">
                         <div class="overflow-x-auto">
@@ -128,7 +134,7 @@ function finishOrder() {
                             <div class="flex items-center justify-end">
                                 <div class="text-end mr-4">
                                     <p class="font-medium text-sm">Total Employee</p>
-                                    <p class="font-semibold text-2xl">5</p>
+                                    <p class="font-semibold text-2xl">{{ totalEmployee }}</p>
                                 </div>
                                 <div class="p-2 bg-tertiary-600 text-white rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="25" width="25"
@@ -140,8 +146,8 @@ function finishOrder() {
                             </div>
                             <div class="flex items-center justify-end">
                                 <div class="text-end mr-4">
-                                    <p class="font-medium text-sm">Total Member</p>
-                                    <p class="font-semibold text-2xl">14</p>
+                                    <p class="font-medium text-sm">Total Active Member</p>
+                                    <p class="font-semibold text-2xl">{{ totalMember }}</p>
                                 </div>
                                 <div class="p-2 bg-tertiary-600 text-white rounded-full">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height="25" width="25"
@@ -160,7 +166,9 @@ function finishOrder() {
                                 <div class="flex items-center justify-end">
                                     <div class="text-end mr-4">
                                         <p class="font-medium text-sm">Incoming Orders</p>
-                                        <p class="font-semibold text-2xl">15</p>
+                                        <p class="font-semibold text-2xl">
+                                            {{ todayOrder }}
+                                        </p>
                                     </div>
                                     <div class="p-2 bg-tertiary-600 text-white rounded-full">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="25"
@@ -176,7 +184,7 @@ function finishOrder() {
                                 <div class="flex items-center justify-end">
                                     <div class="text-end mr-4">
                                         <p class="font-medium text-sm">Total Income</p>
-                                        <p class="font-semibold text-2xl">Rp 29.000</p>
+                                        <p class="font-semibold text-2xl">{{ todayIncome }}</p>
                                     </div>
                                     <div class="p-2 bg-tertiary-600 text-white rounded-full">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="25"
