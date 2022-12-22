@@ -86,7 +86,7 @@ function closeModal() {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Service</h2>
             </div>
-            <div class="mt-20 mx-auto max-w-7xl">
+            <div class="mt-10 mx-auto max-w-7xl">
                 <TableList :head="head" :data="services.data" action="modal" @edit="showModal">
                     <div class="flex justify-end mb-5">
                         <PrimaryButton class="px-3 2xl:text-base" @click="showModal('add')">
@@ -101,7 +101,7 @@ function closeModal() {
         </div>
         <Teleport to="body">
             <!-- Add modal -->
-            <Modal :show="modal.show.value" :form="true" @close="closeModal()" @ok="submit(modal.title.value)">
+            <Modal :show="modal.show.value" :form="true" @close="closeModal()" @postForm="submit(modal.title.value)">
                 <!-- Input name -->
                 <h3 class="mb-6 font-bold text-center text-primary-800 text-xl">{{ modal.title.value }} Service</h3>
                 <div>

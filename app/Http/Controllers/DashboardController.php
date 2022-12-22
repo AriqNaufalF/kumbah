@@ -8,6 +8,8 @@ use App\Models\OrderDetail;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -18,7 +20,22 @@ class DashboardController extends Controller
         $todayIncome = OrderDetail::whereDate('created_at', Carbon::today())->sum('total');
         $yearlyOrders = Order::whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
 
-        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome'));
+        $ongoingOrders = OrderDetail::select(
+            'orders.id as id',
+            'order_details.name as name',
+            'services.name as service',
+            DB::raw('CONCAT(order_details.service_quantity, " ", services.unit) as quantity'),
+            'order_details.total as total',
+            'orders.order_date as order_date',
+        )
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->leftjoin('members', 'orders.member_id', '=', 'members.id')
+            ->join('services', 'order_details.service_id', '=', 'services.id')
+            ->whereNull('orders.finished_date')
+            ->orderBy('orders.created_at', 'asc')
+            ->paginate(5);
+
+        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome', 'ongoingOrders'));
     }
 
     public function addOrder()
@@ -66,6 +83,15 @@ class DashboardController extends Controller
             'total' => $validated['totalPrice']
         ]);
 
-        return back()->with('success', 'Order added successfully');
+        return Redirect::route('dashboard')->with('success', 'Order added successfully');
+    }
+
+    public function finishOrder(Request $req)
+    {
+        Order::findOrFail($req->id)->update([
+            'finished_date' => Carbon::now()->toDateString()
+        ]);
+
+        return Redirect::back()->with('success', 'Order Finished');
     }
 }

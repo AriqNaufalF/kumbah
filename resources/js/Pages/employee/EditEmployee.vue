@@ -44,7 +44,7 @@ function deleteAccount() {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Edit Employee</h2>
             </div>
-            <div class="mt-20 mx-auto max-w-7xl">
+            <div class="mt-10 mx-auto max-w-7xl">
                 <div class="p-6 bg-white shadow-lg rounded-lg">
                     <form @submit.prevent="submit">
                         <div class="grid grid-cols-2 gap-6 mx-auto max-w-7xl">

@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'email' => "admin@kumbah.com",
             'password' => Hash::make("123456789"), // admin123
             'isAdmin' => true,
-            'email_verified_at' => now(),'email_verified_at' => now(),
+            'email_verified_at' => now(), 'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ]);
 

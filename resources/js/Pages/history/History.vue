@@ -27,7 +27,7 @@ const head = [
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">History</h2>
             </div>
-            <div class="mt-20 mx-auto max-w-7xl">
+            <div class="mt-10 mx-auto max-w-7xl">
                 <TableList :head="head" :data="orders.data" action="details" url="history.info">
                     <template #pagination>
                         <Pagination :links="orders.links" />
