@@ -93,7 +93,7 @@ function finishOrder() {
             <div class="text-center">
                 <h2 class="font-bold text-primary-800 text-2xl uppercase xl:text-3xl">Welcome to Kumbah</h2>
             </div>
-            <div class="flex flex-col-reverse mt-10 gap-8 xl:flex-row">
+            <div class="flex flex-col-reverse mt-10 mx-auto gap-8 max-w-7xl xl:flex-row">
                 <!-- Unfinished order -->
                 <section class="bg-white w-full shadow-md rounded-lg">
                     <div class="flex flex-col h-full">
@@ -203,7 +203,7 @@ function finishOrder() {
                 </section>
             </div>
             <!-- Yearly chart -->
-            <section class="mt-8 bg-white w-full shadow-md rounded-lg">
+            <section class="mt-8 mx-auto bg-white w-full max-w-7xl shadow-md rounded-lg">
                 <div class="p-6">
                     <h3 class="mb-4 font-semibold text-lg text-center uppercase">Order Statistic For The Year</h3>
                     <Line class="max-h-96" :data="monthlyOrder" :options="chartOptions" />
