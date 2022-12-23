@@ -23,6 +23,7 @@ const form = useForm({
     password: '',
     isAdmin: !!isAdmin
 });
+const deactiveForm = useForm({ id: id });
 
 function submit() {
     form.post(route('employee.update', id), {
@@ -30,8 +31,10 @@ function submit() {
     });
 }
 
-function deleteAccount() {
-    form.delete('/delete');
+function deactivateAccount() {
+    deactiveForm.post(route('employee.deactivate'), {
+        onSuccess: () => deactiveForm.reset()
+    })
 }
 
 </script>
@@ -102,7 +105,8 @@ function deleteAccount() {
                                     </label>
                                 </div>
                                 <div class="mt-auto ml-auto">
-                                    <SecondaryButton class="px-6 py-1.5" type="button" @click="showModal = true">Delete
+                                    <SecondaryButton class="px-6 py-1.5" type="button" @click="showModal = true">
+                                        Deactivate
                                     </SecondaryButton>
                                     <PrimaryButton class="ml-3 px-6 py-1.5" :class="{ 'opacity-25': form.processing }"
                                         :disabled="form.processing">
@@ -116,13 +120,16 @@ function deleteAccount() {
             </div>
         </div>
         <Teleport to="body">
-            <Modal :show="showModal" @close="showModal = false" @ok="deleteAccount">
+            <Modal :show="showModal" @close="showModal = false" @postForm="deactivateAccount">
                 <svg xmlns="http://www.w3.org/2000/svg" height="56" width="56" viewBox="0 0 48 48"
                     class="mx-auto mb-4 fill-red-600">
                     <path
                         d="M2 42 24 4l22 38Zm22.2-5.85q.65 0 1.075-.425.425-.425.425-1.075 0-.65-.425-1.075-.425-.425-1.075-.425-.65 0-1.075.425Q22.7 34 22.7 34.65q0 .65.425 1.075.425.425 1.075.425Zm-1.5-5.55h3V19.4h-3Z" />
                 </svg>
-                <h3 class="mb-5 text-lg">Are you sure want to delete this account?</h3>
+                <h3 class="mb-5 text-lg">
+                    <span class="block">This action cannot be undone. It will be permanently inactive.</span>
+                    Are you sure want to deactivate this account?
+                </h3>
             </Modal>
         </Teleport>
     </AuthenticatedLayout>

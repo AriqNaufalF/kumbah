@@ -46,6 +46,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('store', 'store')->name('employee.store');
             Route::get('edit/{id}', 'edit')->name('employee.edit');
             Route::post('update/{id}', 'update')->name('employee.update');
+            Route::post('deactivate', 'deactivate')->name('employee.deactivate');
         });
     });
 
@@ -117,9 +118,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //     return Inertia::render('history/History');
     // })->name('history');
 
-    Route::delete('/delete', function (Request $request) {
-        return redirect('/employee');
-    })->name('delete');
+    // Route::delete('/delete', function (Request $request) {
+    //     return redirect('/employee');
+    // })->name('delete');
 });
 
 require __DIR__ . '/auth.php';

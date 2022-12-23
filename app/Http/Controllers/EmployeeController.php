@@ -24,7 +24,7 @@ class EmployeeController extends Controller
                 WHEN gender = 2 THEN "Female"
                 END) as gender'
             )
-        )->orderBy('id', 'asc')->paginate(15);
+        )->where('active', '=', 1)->orderBy('id', 'asc')->paginate(15);
         return Inertia::render('employee/Employee', compact("employees"));
     }
 
@@ -95,5 +95,14 @@ class EmployeeController extends Controller
         $employee->save();
 
         return redirect('employee')->with('success', 'Employee data updated.');
+    }
+
+    public function deactivate(Request $req)
+    {
+        $user = User::findOrFail($req->id)->update([
+            'active' => false
+        ]);
+        // dd($user);
+        return redirect('employee')->with('success', 'Employee deactivated.');
     }
 }

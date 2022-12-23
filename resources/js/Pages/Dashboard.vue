@@ -107,7 +107,8 @@ function finishOrder() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-if="ongoingOrders" v-for="(data, index) in ongoingOrders.data" :key="index">
+                                    <tr v-if="ongoingOrders.data.length > 0" v-for="(data, index) in ongoingOrders.data"
+                                        :key="index">
                                         <td v-for="({ key }) in tableHeader" class="py-3 px-3.5">{{ data[key] }}</td>
                                         <td class="py-3 px-3.5">
                                             <SecondaryButton class="px-3 py-1.5" type="button"
