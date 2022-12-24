@@ -21,7 +21,12 @@ class DashboardController extends Controller
         $todayIncome = OrderDetail::whereDate('created_at', Carbon::today())->sum('total');
         $totalEmployee = User::where('active', '=', 1)->count('id');
         $totalMember = Member::whereDate('expired_date', '>=', Carbon::now())->count('id');
-        $yearlyOrders = Order::whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->get();
+        $yearlyOrders = Order::select(
+            DB::raw('COUNT(orders.id) as monthly_order'),
+        )
+        ->whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+        ->groupBy(DB::raw('MONTH(order_date)'))
+        ->get();
 
         $ongoingOrders = OrderDetail::select(
             'orders.id as id',
