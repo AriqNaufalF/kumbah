@@ -1,11 +1,10 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import ButtonLink from '@/Components/ButtonLink.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/inertia-vue3';
 
-const clothes = [{ cloth: 'Kaos', quantity: 1 }];
 const orderDetail = usePage().props.value.orderDetail;
 </script>
 
@@ -101,9 +100,10 @@ const orderDetail = usePage().props.value.orderDetail;
                             </div>
                         </div>
                         <div class="mt-4 ml-auto">
-                            <PrimaryButton class="px-6 py-1.5">
+                            <a :href="route('print.invoice', orderDetail.order_id)" target="_blank"
+                                class="px-6 py-1.5 text-sm font-medium bg-primary-600 text-white rounded-md shadow-md transition-all hover:scale-105 hover:bg-primary-800">
                                 Print
-                            </PrimaryButton>
+                            </a>
                         </div>
                     </div>
                 </div>

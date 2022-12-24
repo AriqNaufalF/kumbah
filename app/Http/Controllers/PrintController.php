@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use NumberFormatter;
 use PDF;
 
 class PrintController extends Controller
@@ -17,7 +19,7 @@ class PrintController extends Controller
             'members.id as member_id',
             'order_details.name as customer_name',
             'services.name as service_name',
-            'order_details.service_quantity as service_quantity',
+            DB::raw('CONCAT(order_details.service_quantity, " ", services.unit) as service_quantity'),
             'order_details.subtotal as subtotal',
             'order_details.discount as discount',
             'order_details.total as total',
@@ -28,7 +30,12 @@ class PrintController extends Controller
             ->join('services', 'order_details.service_id', '=', 'services.id')
             ->where('orders.id', $id)
             ->first();
-        
+
+        $fmt = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+        $data['subtotal'] = $fmt->formatCurrency($data['subtotal'], 'IDR');
+        $data['discount'] = $fmt->formatCurrency($data['discount'], 'IDR');
+        $data['total'] = $fmt->formatCurrency($data['total'], 'IDR');
+
         $pdf = PDF::loadView('pdf_view', compact('data'));
         $pdf->setPaper('A6');
 
