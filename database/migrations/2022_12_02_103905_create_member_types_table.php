@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('member_types', function (Blueprint $table) {
             $table->id();
             $table->enum('name', ['Silver', 'Gold', 'Platinum']);
-            $table->bigInteger('price');
+            $table->integer('weight_requirement');
             $table->float('discount', 4, 3);
             $table->timestamps();
         });

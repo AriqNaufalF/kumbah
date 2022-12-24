@@ -7,7 +7,7 @@ import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 import TableList from '@/Components/TableList.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { decimalToPercent, toRupiah } from "@/functions/numberFormat.js";
+import { decimalToPercent } from "@/functions/numberFormat.js";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
 import { ref } from 'vue';
@@ -19,7 +19,7 @@ defineProps({
 const showModal = ref(false);
 const form = useForm({
     name: '',
-    price: '',
+    requirement: '',
     discount: ''
 });
 
@@ -40,7 +40,7 @@ function editType(item) {
     showModal.value = true;
     id.value = item.id;
     form.name = item.name;
-    form.price = item.price;
+    form.requirement = item.weight_requirement;
     form.discount = item.discount;
 }
 
@@ -81,8 +81,8 @@ function closeForm() {
                                 </p>
                             </div>
                             <div class="col-start-2 row-start-2 col-span-2 self-end justify-self-end">
-                                <p class="font-medium text-sm leading-4 text-white">Price /Month</p>
-                                <p class="font-semibold text-lg text-white">{{ toRupiah(item.price) }}</p>
+                                <p class="font-medium text-sm leading-4 text-white">Requirement</p>
+                                <p class="font-semibold text-lg text-white">{{ item.weight_requirement }} Kg</p>
                             </div>
                         </MemberCard>
                     </div>
@@ -111,9 +111,9 @@ function closeForm() {
                 </div>
                 <!-- Input price -->
                 <div class="mt-3">
-                    <InputLabel for="price" value="Price" class="mb-2" />
-                    <TextInput v-model="form.price" id="price" type="number" class="w-full" required />
-                    <InputError :message="form.errors.price" class="mt-1.5" />
+                    <InputLabel for="requirement" value="Requirement" class="mb-2" />
+                    <TextInput v-model="form.requirement" id="requirement" type="number" class="w-full" required />
+                    <InputError :message="form.errors.requirement" class="mt-1.5" />
                 </div>
                 <template #yesButton>Save</template>
                 <template #noButton>Cancel</template>

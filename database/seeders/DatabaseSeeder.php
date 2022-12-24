@@ -40,19 +40,19 @@ class DatabaseSeeder extends Seeder
 
         MemberType::factory()->create([
             'name' => 'Silver',
-            'price' => 10000,
+            'weight_requirement' => 25,
             'discount' => 0.05,
         ]);
 
         MemberType::factory()->create([
             'name' => 'Gold',
-            'price' => 15000,
+            'weight_requirement' => 50,
             'discount' => 0.1,
         ]);
 
         MemberType::factory()->create([
             'name' => 'Platinum',
-            'price' => 20000,
+            'weight_requirement' => 100,
             'discount' => 0.15,
         ]);
 

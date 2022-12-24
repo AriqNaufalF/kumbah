@@ -1,9 +1,9 @@
 <script setup>
-import ButtonLink from '@/Components/ButtonLink.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/inertia-vue3';
+import { toRupiah } from "@/functions/numberFormat.js";
 
 const orderDetail = usePage().props.value.orderDetail;
 </script>
@@ -67,19 +67,19 @@ const orderDetail = usePage().props.value.orderDetail;
                             <!-- Input sub total -->
                             <div>
                                 <InputLabel for="subTotal" value="Sub Total" class="mb-2" />
-                                <TextInput id="subTotal" :value="orderDetail.subtotal" type="text"
+                                <TextInput id="subTotal" :value="toRupiah(orderDetail.subtotal)" type="text"
                                     class="w-full text-right" readonly />
                             </div>
                             <!-- Input discount -->
                             <div class="mt-3">
                                 <InputLabel for="discount" value="Total Discount" class="mb-2" />
-                                <TextInput id="discount" :value="orderDetail.discount" type="text"
+                                <TextInput id="discount" :value="toRupiah(orderDetail.discount)" type="text"
                                     class="w-full text-right" readonly />
                             </div>
                             <!-- Input total price -->
                             <div class="mt-3">
                                 <InputLabel for="totalPrice" value="Total Price" class="mb-2" />
-                                <TextInput id="totalPrice" :value="orderDetail.total" type="text"
+                                <TextInput id="totalPrice" :value="toRupiah(orderDetail.total)" type="text"
                                     class="w-full text-right" readonly />
                             </div>
                         </div>

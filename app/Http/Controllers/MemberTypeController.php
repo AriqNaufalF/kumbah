@@ -13,17 +13,17 @@ class MemberTypeController extends Controller
     {
         $validated = Validator::make($req->all(), [
             'name' => 'required|string|max:100',
-            'price' => 'required|numeric',
+            'requirement' => 'required|numeric',
             'discount' => 'required|numeric',
         ]);
 
         if ($validated->fails()) {
-            return Redirect::back()->with('error', 'Input error');
+            return Redirect::back()->with('error', $validated->messages());
         }
 
         $type = MemberType::findOrFail($id);
         $type->name = $req->name;
-        $type->price = $req->price;
+        $type->weight_requirement = $req->requirement;
         $type->discount = $req->discount;
         $type->save();
 
