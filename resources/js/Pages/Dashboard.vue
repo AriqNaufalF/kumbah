@@ -23,6 +23,31 @@ const todayOrder = usePage().props.value.todayOrder;
 const todayIncome = toRupiah(usePage().props.value.todayIncome);
 const totalEmployee = usePage().props.value.totalEmployee;
 const totalMember = usePage().props.value.totalMember;
+const yearlyOrders = usePage().props.value.yearlyOrders;
+const monthLabels = {
+    1: 'Jan',
+    2: 'Feb',
+    3: 'Mar',
+    4: 'Apr',
+    5: 'May',
+    6: 'Jun',
+    7: 'Jul',
+    8: 'Aug',
+    9: 'Sep',
+    10: 'Oct',
+    11: 'Nov',
+    12: 'Dec'
+};
+function getDataPerMonth() {
+    // insert a default value as 0 every month
+    let monthlyData = new Array(12).fill(0);
+    // replace 0 to a data from db if available
+    yearlyOrders.forEach(obj => {
+        monthlyData.splice(obj.month - 1, 1, obj.monthly_order)
+    })
+
+    return monthlyData;
+}
 
 const tableHeader = [
     { key: 'id', label: 'ID' },
@@ -50,17 +75,20 @@ const chartOptions = {
                 color: 'black',
                 text: 'Total Orders'
             },
+            ticks: {
+                precision: 0
+            }
         }
     }
 };
 
-const monthlyOrder = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+const yearlyOrder = {
+    labels: Object.values(monthLabels),
     datasets: [
         {
             label: 'Total orders',
             backgroundColor: '#FF3370',
-            data: [50, 5, 10, 20, 40, 45, 15]
+            data: getDataPerMonth()
         }
     ]
 };
@@ -75,8 +103,11 @@ function openModal(id) {
 
 function finishOrder() {
     form.post(route('order.finish'), {
-        onFinish() {
-            form.reset();
+        onSuccess() {
+            setTimeout(() => {
+                window.open(route('print.invoice', form.id), '_blank');
+                form.reset();
+            }, 1000);
         },
         preserveState: false,
     })
@@ -206,7 +237,7 @@ function finishOrder() {
             <section class="mt-8 mx-auto bg-white w-full max-w-7xl shadow-md rounded-lg">
                 <div class="p-6">
                     <h3 class="mb-4 font-semibold text-lg text-center uppercase">Order Statistic For The Year</h3>
-                    <Line class="max-h-96" :data="monthlyOrder" :options="chartOptions" />
+                    <Line class="max-h-96" :data="yearlyOrder" :options="chartOptions" />
                 </div>
             </section>
         </div>

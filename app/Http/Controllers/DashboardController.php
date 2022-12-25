@@ -22,11 +22,13 @@ class DashboardController extends Controller
         $totalEmployee = User::where('active', '=', 1)->count('id');
         $totalMember = Member::whereDate('expired_date', '>=', Carbon::now())->count('id');
         $yearlyOrders = Order::select(
-            DB::raw('COUNT(orders.id) as monthly_order'),
+            DB::raw('Month(order_date) as month'),
+            DB::raw('COUNT(orders.id) as monthly_order')
         )
-        ->whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
-        ->groupBy(DB::raw('MONTH(order_date)'))
-        ->get();
+            ->whereBetween('order_date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
 
         $ongoingOrders = OrderDetail::select(
             'orders.id as id',
@@ -43,7 +45,7 @@ class DashboardController extends Controller
             ->orderBy('orders.created_at', 'asc')
             ->paginate(5);
 
-        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome', 'ongoingOrders', 'totalEmployee', 'totalMember'));
+        return Inertia::render('Dashboard', compact('todayOrder', 'todayIncome', 'ongoingOrders', 'totalEmployee', 'totalMember', 'yearlyOrders'));
     }
 
     public function addOrder()
