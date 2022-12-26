@@ -3,14 +3,11 @@ import ButtonLink from '@/Components/ButtonLink.vue';
 import Modal from '@/Components/Modal.vue';
 import Pagination from '@/Components/Pagination.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import YearlyChart from '@/Components/YearlyChart.vue';
 import { toRupiah } from "@/functions/numberFormat.js";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/inertia-vue3';
-import { CategoryScale, Chart as ChartJs, LinearScale, LineElement, PointElement, Tooltip } from "chart.js";
 import { ref } from 'vue';
-import { Line } from "vue-chartjs";
-
-ChartJs.register(LineElement, PointElement, LinearScale, CategoryScale, Tooltip);
 
 defineProps({
     ongoingOrders: {
@@ -24,30 +21,7 @@ const todayIncome = toRupiah(usePage().props.value.todayIncome);
 const totalEmployee = usePage().props.value.totalEmployee;
 const totalMember = usePage().props.value.totalMember;
 const yearlyOrders = usePage().props.value.yearlyOrders;
-const monthLabels = {
-    1: 'Jan',
-    2: 'Feb',
-    3: 'Mar',
-    4: 'Apr',
-    5: 'May',
-    6: 'Jun',
-    7: 'Jul',
-    8: 'Aug',
-    9: 'Sep',
-    10: 'Oct',
-    11: 'Nov',
-    12: 'Dec'
-};
-function getDataPerMonth() {
-    // insert a default value as 0 every month
-    let monthlyData = new Array(12).fill(0);
-    // replace 0 to a data from db if available
-    yearlyOrders.forEach(obj => {
-        monthlyData.splice(obj.month - 1, 1, obj.monthly_order)
-    })
-
-    return monthlyData;
-}
+const yearlyIncome = usePage().props.value.yearlyIncome;
 
 const tableHeader = [
     { key: 'id', label: 'ID' },
@@ -57,41 +31,6 @@ const tableHeader = [
     { key: 'quantity', label: 'Quantity' },
     { key: 'total', label: 'Total Price' },
 ];
-
-const chartOptions = {
-    responsive: true,
-    borderColor: '#FF6392',
-    scales: {
-        x: {
-            title: {
-                display: true,
-                color: 'black',
-                text: 'Month'
-            },
-        },
-        y: {
-            title: {
-                display: true,
-                color: 'black',
-                text: 'Total Orders'
-            },
-            ticks: {
-                precision: 0
-            }
-        }
-    }
-};
-
-const yearlyOrder = {
-    labels: Object.values(monthLabels),
-    datasets: [
-        {
-            label: 'Total orders',
-            backgroundColor: '#FF3370',
-            data: getDataPerMonth()
-        }
-    ]
-};
 
 const form = useForm({ id: 0 });
 const showModal = ref(false);
@@ -233,14 +172,16 @@ function finishOrder() {
                     </div>
                 </section>
             </div>
-            <!-- Yearly chart -->
-            <section class="mt-8 mx-auto bg-white w-full max-w-7xl shadow-md rounded-lg">
-                <div class="p-6">
-                    <h3 class="mb-4 font-semibold text-lg text-center uppercase">Order Statistic For The Year</h3>
-                    <Line class="max-h-96" :data="yearlyOrder" :options="chartOptions" />
-                </div>
-            </section>
+            <!-- Yearly chart order -->
+            <YearlyChart yAxisTitle="Total Orders" :data="yearlyOrders">
+                <h3 class="mb-4 font-semibold text-lg text-center uppercase">Quantity orders for this year</h3>
+            </YearlyChart>
+            <!-- Yearly chart income -->
+            <YearlyChart yAxisTitle="Total Income" :data="yearlyIncome">
+                <h3 class="mb-4 font-semibold text-lg text-center uppercase">Income data for this year</h3>
+            </YearlyChart>
         </div>
+        <!-- Confirmation modal -->
         <Teleport to="body">
             <Modal :show="showModal" @close="showModal = false" @postForm="finishOrder">
                 <svg xmlns=" http://www.w3.org/2000/svg" width="56" height="56" fill="currentColor" viewBox="0 0 16 16"
