@@ -29,7 +29,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'isActive'])->group(function () {
     Route::prefix('dashboard')->group(function () {
         Route::controller(DashboardController::class)->group(function () {
             Route::get('', 'index')->name('dashboard');
@@ -38,15 +38,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('finish-order', 'finishOrder')->name('order.finish');
         });
     });
-
-    Route::prefix("employee")->group(function () {
-        Route::controller(EmployeeController::class)->group(function () {
-            Route::get('', 'index')->name('employee.index');
-            Route::get('create', 'create')->name('employee.create');
-            Route::post('store', 'store')->name('employee.store');
-            Route::get('edit/{id}', 'edit')->name('employee.edit');
-            Route::post('update/{id}', 'update')->name('employee.update');
-            Route::post('deactivate', 'deactivate')->name('employee.deactivate');
+    
+    Route::middleware(['isAdmin'])->group(function () {
+        Route::prefix("employee")->group(function () {
+            Route::controller(EmployeeController::class)->group(function () {
+                Route::get('', 'index')->name('employee.index');
+                Route::get('create', 'create')->name('employee.create');
+                Route::post('store', 'store')->name('employee.store');
+                Route::get('edit/{id}', 'edit')->name('employee.edit');
+                Route::post('update/{id}', 'update')->name('employee.update');
+                Route::post('deactivate', 'deactivate')->name('employee.deactivate');
+            });
         });
     });
 
