@@ -18,13 +18,10 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->isAdmin == 1)
-        {
+        if (Auth::user()->isAdmin == 1) {
             return $next($request);
-        }
-        else
-        {
-            return redirect('dashboard')->with('error', 'You cannot access this page');
+        } else {
+            return abort(403, 'You cannot access this page');
         }
     }
 }
