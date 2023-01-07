@@ -89,7 +89,8 @@ function closeModal() {
             <div class="mt-10 mx-auto max-w-7xl">
                 <TableList :head="head" :data="services.data" action="modal" @edit="showModal">
                     <div class="flex justify-end mb-5">
-                        <PrimaryButton class="px-3 2xl:text-base" @click="showModal('add')">
+                        <PrimaryButton v-if="$page.props.auth.user.isAdmin" class="px-3 2xl:text-base"
+                            @click="showModal('add')">
                             Add Service
                         </PrimaryButton>
                     </div>

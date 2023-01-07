@@ -90,7 +90,8 @@ function setSort(key, type) {
                     <tr v-for="(data, index) in sortedData" :key="index" class="group hover:bg-slate-50">
                         <td v-for="({ key }) in head" class="py-3 px-3.5">{{ data[key] }}</td>
                         <td v-if="action === 'modal'" class="py-3 px-3.5">
-                            <button type="button" @click="$emit('edit', 'edit', data)">
+                            <button v-if="$page.props.auth.user.isAdmin" type="button"
+                                @click="$emit('edit', 'edit', data)">
                                 <span class="sr-only">Edit</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" height="24" width="24"
                                     class="inline hover:scale-x-110">

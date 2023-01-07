@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified', 'isActive'])->group(function () {
             Route::post('finish-order', 'finishOrder')->name('order.finish');
         });
     });
-    
+
     Route::middleware(['isAdmin'])->group(function () {
         Route::prefix("employee")->group(function () {
             Route::controller(EmployeeController::class)->group(function () {
@@ -69,8 +69,8 @@ Route::middleware(['auth', 'verified', 'isActive'])->group(function () {
     Route::prefix("service")->group(function () {
         Route::controller(ServiceController::class)->group(function () {
             Route::get('', 'index')->name('service.index');
-            Route::post('store', 'store')->name('service.store');
-            Route::post('update', 'update')->name('service.update');
+            Route::post('store', 'store')->middleware('isAdmin')->name('service.store');
+            Route::post('update', 'update')->middleware('isAdmin')->name('service.update');
         });
     });
 
